@@ -305,14 +305,6 @@
   --sm-color-neutral-0: hsl(0, 0%, 100%);
   --sm-color-neutral-1000: hsl(0, 0%, 0%);
 
-  /* Border radii */
-  --sm-border-radius-small: 0.1875rem;
-  --sm-border-radius-medium: 0.25rem;
-  --sm-border-radius-large: 0.5rem;
-  --sm-border-radius-x-large: 1rem;
-  --sm-border-radius-circle: 50%;
-  --sm-border-radius-pill: 9999px;
-
   /* Elevations */
   --sm-shadow-x-small: 0 1px 2px hsl(240 3.8% 46.1% / 6%);
   --sm-shadow-small: 0 1px 2px hsl(240 3.8% 46.1% / 12%);
@@ -320,79 +312,10 @@
   --sm-shadow-large: 0 2px 8px hsl(240 3.8% 46.1% / 12%);
   --sm-shadow-x-large: 0 4px 16px hsl(240 3.8% 46.1% / 12%);
 
-  /* Spacings */
-  --sm-spacing-3x-small: 0.125rem;
-  --sm-spacing-2x-small: 0.25rem;
-  --sm-spacing-x-small: 0.5rem;
-  --sm-spacing-small: 0.75rem;
-  --sm-spacing-medium: 1rem;
-  --sm-spacing-large: 1.25rem;
-  --sm-spacing-x-large: 1.75rem;
-  --sm-spacing-2x-large: 2.25rem;
-  --sm-spacing-3x-large: 3rem;
-  --sm-spacing-4x-large: 4.5rem;
-
-  /* Transitions */
-  --sm-transition-x-slow: 1000ms;
-  --sm-transition-slow: 500ms;
-  --sm-transition-medium: 250ms;
-  --sm-transition-fast: 150ms;
-  --sm-transition-x-fast: 50ms;
-
-  /* Fonts */
-  --sm-font-mono: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
-  --sm-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  --sm-font-serif: Georgia, 'Times New Roman', serif;
-
-  /* Font sizes */
-  --sm-font-size-2x-small: 0.625rem;
-  --sm-font-size-x-small: 0.75rem;
-  --sm-font-size-small: 0.875rem;
-  --sm-font-size-medium: 1rem;
-  --sm-font-size-large: 1.25rem;
-  --sm-font-size-x-large: 1.5rem;
-  --sm-font-size-2x-large: 2.25rem;
-  --sm-font-size-3x-large: 3rem;
-  --sm-font-size-4x-large: 4.5rem;
-
-  /* Font weights */
-  --sm-font-weight-light: 300;
-  --sm-font-weight-normal: 400;
-  --sm-font-weight-semibold: 500;
-  --sm-font-weight-bold: 700;
-
-  /* Letter spacings */
-  --sm-letter-spacing-denser: -0.03em;
-  --sm-letter-spacing-dense: -0.015em;
-  --sm-letter-spacing-normal: normal;
-  --sm-letter-spacing-loose: 0.075em;
-  --sm-letter-spacing-looser: 0.15em;
-
-  /* Line heights */
-  --sm-line-height-denser: 1;
-  --sm-line-height-dense: 1.4;
-  --sm-line-height-normal: 1.8;
-  --sm-line-height-loose: 2.2;
-  --sm-line-height-looser: 2.6;
-
   /* Focus rings */
   --sm-focus-ring-color: var(--sm-color-primary-600);
-  --sm-focus-ring-style: solid;
-  --sm-focus-ring-width: 3px;
-  --sm-focus-ring: var(--sm-focus-ring-style) var(--sm-focus-ring-width) var(--sm-focus-ring-color);
-  --sm-focus-ring-offset: 1px;
-
-  /* Buttons */
-  --sm-button-font-size-small: var(--sm-font-size-x-small);
-  --sm-button-font-size-medium: var(--sm-font-size-small);
-  --sm-button-font-size-large: var(--sm-font-size-medium);
 
   /* Inputs */
-  --sm-input-height-small: 1.875rem;
-  --sm-input-height-medium: 2.5rem;
-  --sm-input-height-large: 3.125rem;
-
   --sm-input-background-color: var(--sm-color-neutral-0);
   --sm-input-background-color-hover: var(--sm-input-background-color);
   --sm-input-background-color-focus: var(--sm-input-background-color);
@@ -401,21 +324,7 @@
   --sm-input-border-color-hover: var(--sm-color-neutral-400);
   --sm-input-border-color-focus: var(--sm-color-primary-500);
   --sm-input-border-color-disabled: var(--sm-color-neutral-300);
-  --sm-input-border-width: 1px;
-  --sm-input-required-content: '*';
-  --sm-input-required-content-offset: -2px;
   --sm-input-required-content-color: var(--sm-input-label-color);
-
-  --sm-input-border-radius-small: var(--sm-border-radius-medium);
-  --sm-input-border-radius-medium: var(--sm-border-radius-medium);
-  --sm-input-border-radius-large: var(--sm-border-radius-medium);
-
-  --sm-input-font-family: var(--sm-font-sans);
-  --sm-input-font-weight: var(--sm-font-weight-normal);
-  --sm-input-font-size-small: var(--sm-font-size-small);
-  --sm-input-font-size-medium: var(--sm-font-size-medium);
-  --sm-input-font-size-large: var(--sm-font-size-large);
-  --sm-input-letter-spacing: var(--sm-letter-spacing-normal);
 
   --sm-input-color: var(--sm-color-neutral-700);
   --sm-input-color-hover: var(--sm-color-neutral-700);
@@ -426,12 +335,8 @@
   --sm-input-icon-color-focus: var(--sm-color-neutral-600);
   --sm-input-placeholder-color: var(--sm-color-neutral-500);
   --sm-input-placeholder-color-disabled: var(--sm-color-neutral-600);
-  --sm-input-spacing-small: var(--sm-spacing-small);
-  --sm-input-spacing-medium: var(--sm-spacing-medium);
-  --sm-input-spacing-large: var(--sm-spacing-large);
 
   --sm-input-focus-ring-color: hsl(198.6 88.7% 48.4% / 40%);
-  --sm-input-focus-ring-offset: 0;
 
   --sm-input-filled-background-color: var(--sm-color-neutral-100);
   --sm-input-filled-background-color-hover: var(--sm-color-neutral-100);
@@ -443,21 +348,10 @@
   --sm-input-filled-color-disabled: var(--sm-color-neutral-800);
 
   /* Labels */
-  --sm-input-label-font-size-small: var(--sm-font-size-small);
-  --sm-input-label-font-size-medium: var(--sm-font-size-medium);
-  --sm-input-label-font-size-large: var(--sm-font-size-large);
   --sm-input-label-color: inherit;
 
   /* Help text */
-  --sm-input-help-text-font-size-small: var(--sm-font-size-x-small);
-  --sm-input-help-text-font-size-medium: var(--sm-font-size-small);
-  --sm-input-help-text-font-size-large: var(--sm-font-size-medium);
   --sm-input-help-text-color: var(--sm-color-neutral-500);
-
-  /* Toggles */
-  --sm-toggle-size-small: 0.875rem;
-  --sm-toggle-size-medium: 1.125rem;
-  --sm-toggle-size-large: 1.375rem;
 
   /* Overlays */
   --sm-overlay-background-color: hsl(240 3.8% 46.1% / 33%);
@@ -465,23 +359,8 @@
   /* Panels */
   --sm-panel-background-color: var(--sm-color-neutral-0);
   --sm-panel-border-color: var(--sm-color-neutral-200);
-  --sm-panel-border-width: 1px;
 
   /* Tooltips */
-  --sm-tooltip-border-radius: var(--sm-border-radius-medium);
   --sm-tooltip-background-color: var(--sm-color-neutral-800);
   --sm-tooltip-color: var(--sm-color-neutral-0);
-  --sm-tooltip-font-family: var(--sm-font-sans);
-  --sm-tooltip-font-weight: var(--sm-font-weight-normal);
-  --sm-tooltip-font-size: var(--sm-font-size-small);
-  --sm-tooltip-line-height: var(--sm-line-height-dense);
-  --sm-tooltip-padding: var(--sm-spacing-2x-small) var(--sm-spacing-x-small);
-  --sm-tooltip-arrow-size: 6px;
-
-  /* Z-indexes */
-  --sm-z-index-drawer: 700;
-  --sm-z-index-dialog: 800;
-  --sm-z-index-dropdown: 900;
-  --sm-z-index-toast: 950;
-  --sm-z-index-tooltip: 1000;
 }

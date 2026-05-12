@@ -8,7 +8,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "wtr",
+    "test:watch": "wtr --watch"
   },
   "exports": {
     ".": {
@@ -16,6 +18,7 @@
       "default": "./dist/index.js"
     },
     "./tokens": "./src/tokens/index.css",
+    "./tokens/base": "./src/tokens/base.css",
     "./tokens/light": "./src/tokens/light.css",
     "./tokens/dark": "./src/tokens/dark.css"
   },
@@ -23,7 +26,8 @@
   "module": "./dist/index.js",
   "files": [
     "dist",
-    "src/tokens"
+    "src/tokens",
+    "src/components"
   ],
   "peerDependencies": {
     "lit": "^3.0.0"
@@ -47,6 +51,9 @@
     "rules": {}
   },
   "devDependencies": {
+    "@open-wc/testing": "^4.0.0",
+    "@web/test-runner": "^0.18.3",
+    "@web/test-runner-playwright": "^0.11.1",
     "eslint": "^8.26.0",
     "lit": "^3.3.2",
     "vite": "^8.0.12"
