@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shoegaze — Supramundane UI Theme Studio</title>
+
+<!-- Token CSS -->
+<link rel="stylesheet" href="../src/tokens/base.css">
+<link id="sm-theme-link" rel="stylesheet" href="../src/tokens/light.css">
+
+<!-- Components — import from source so Vite resolves lit -->
+<script type="module" src="../src/index.js"></script>
+
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+
+html { background: var(--sm-color-neutral-50); }
+
+body {
+  margin: 0;
+  font-family: var(--sm-font-sans);
+  background: var(--sm-color-neutral-50);
+  color: var(--sm-color-neutral-900);
+}
+
+/* ── Header ──────────────────────────────────── */
+#app-header {
+  position: sticky; top: 0; z-index: 200;
+  display: flex; align-items: center; gap: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--sm-color-neutral-0);
+  border-bottom: 1px solid var(--sm-color-neutral-200);
+  box-shadow: var(--sm-shadow-small);
+}
+#app-header .brand { flex: 1; display: flex; align-items: baseline; gap: 0.5rem; }
+#app-header .brand h1 { margin: 0; font-size: 1.25rem; font-weight: 700; color: var(--sm-color-primary-600); }
+#app-header .brand span { font-size: 0.85rem; color: var(--sm-color-neutral-500); }
+#app-header .actions { display: flex; gap: 0.5rem; align-items: center; }
+
+/* ── Showcase ────────────────────────────────── */
+#showcase {
+  max-width: 1200px; margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+  display: flex; flex-direction: column; gap: 3rem;
+}
+.section-title {
+  font-size: 1.1rem; font-weight: 600;
+  color: var(--sm-color-neutral-700);
+  margin: 0 0 1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--sm-color-primary-100);
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.section-title::before {
+  content: ''; display: block;
+  width: 4px; height: 1.1em; border-radius: 2px;
+  background: var(--sm-color-primary-500);
+}
+.demo-group { margin-bottom: 1.25rem; }
+.demo-group-label {
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--sm-color-neutral-500);
+  margin-bottom: 0.5rem;
+}
+.demo-row {
+  display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center;
+}
+.demo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+
+/* ── Theme Drawer Internals ──────────────────── */
+.token-section { margin-bottom: 1.5rem; }
+.token-section h3 {
+  font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--sm-color-neutral-500);
+  margin: 0 0 0.75rem;
+}
+
+/* Color pickers */
+.color-row { display: flex; flex-direction: column; gap: 0.6rem; }
+.color-item {
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.color-item label {
+  width: 5rem; font-size: 0.875rem; font-weight: 500; flex-shrink: 0;
+  color: var(--sm-color-neutral-700);
+}
+.color-item input[type=color] {
+  width: 2.25rem; height: 1.875rem; border: 1px solid var(--sm-color-neutral-300);
+  border-radius: var(--sm-border-radius-medium); cursor: pointer; padding: 2px 3px;
+  background: var(--sm-color-neutral-0); flex-shrink: 0;
+}
+.color-scale-preview {
+  display: flex; flex: 1; height: 1.25rem; border-radius: 4px; overflow: hidden;
+}
+.color-scale-preview span { flex: 1; }
+.reset-btn {
+  background: none; border: none; cursor: pointer; padding: 0 0.15rem; font-size: 0.85rem;
+  color: var(--sm-color-neutral-300); line-height: 1; transition: color var(--sm-transition-fast);
+  flex-shrink: 0;
+}
+.reset-btn:hover { color: var(--sm-color-primary-500); }
+.reset-btn.changed { color: var(--sm-color-neutral-500); }
+
+/* Font picker */
+.font-picker-wrap { position: relative; margin-bottom: 1rem; }
+.font-picker-wrap label { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.4rem; color: var(--sm-color-neutral-700); }
+.font-picker-input-row { display: flex; gap: 0.5rem; align-items: center; }
+.font-picker-input-row input[type=text] {
+  flex: 1; height: 2.25rem; padding: 0 0.75rem;
+  border: 1px solid var(--sm-color-neutral-300); border-radius: var(--sm-border-radius-medium);
+  font-size: 0.875rem; background: var(--sm-color-neutral-0); color: var(--sm-color-neutral-900);
+}
+.font-picker-input-row input[type=text]:focus { outline: var(--sm-focus-ring); }
+.font-preview { font-size: 1rem; margin-top: 0.4rem; color: var(--sm-color-neutral-600); min-height: 1.5rem; }
+.font-dropdown {
+  position: absolute; top: 100%; left: 0; right: 0; z-index: 10;
+  background: var(--sm-color-neutral-0); border: 1px solid var(--sm-color-neutral-300);
+  border-radius: var(--sm-border-radius-medium); box-shadow: var(--sm-shadow-large);
+  max-height: 200px; overflow-y: auto; display: none;
+}
+.font-dropdown.open { display: block; }
+.font-dropdown-item {
+  padding: 0.5rem 0.75rem; cursor: pointer; font-size: 0.875rem;
+  border-bottom: 1px solid var(--sm-color-neutral-100);
+}
+.font-dropdown-item:hover { background: var(--sm-color-primary-50); }
+.font-dropdown-item:last-child { border-bottom: none; }
+
+/* Slider rows */
+.slider-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem; }
+.slider-row label { width: 7rem; font-size: 0.8rem; color: var(--sm-color-neutral-700); flex-shrink: 0; }
+.slider-row input[type=range] { flex: 1; }
+.slider-row .val { width: 4rem; text-align: right; font-size: 0.8rem; color: var(--sm-color-neutral-600); font-variant-numeric: tabular-nums; }
+
+/* Drawer footer */
+.drawer-footer { display: flex; justify-content: space-between; gap: 0.5rem; }
+
+/* ── Demo helpers ───────────────────────────── */
+.avatar-row { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+.split-demo { height: 200px; border: 1px solid var(--sm-color-neutral-200); border-radius: var(--sm-border-radius-large); overflow: hidden; }
+.split-panel-section { padding: 1rem; font-size: 0.875rem; }
+.progress-col { display: flex; flex-direction: column; gap: 0.75rem; max-width: 480px; }
+.format-table { border-collapse: collapse; font-size: 0.875rem; }
+.format-table td { padding: 0.3rem 1rem 0.3rem 0; color: var(--sm-color-neutral-700); }
+.format-table td:first-child { color: var(--sm-color-neutral-500); font-size: 0.8rem; width: 9rem; }
+
+/* ── Dark mode ───────────────────────────────── */
+.sm-theme-dark body,
+.sm-theme-dark { color-scheme: dark; }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══════════════════════════════════════════════ -->
+<header id="app-header">
+  <div class="brand">
+    <h1>Shoegaze</h1>
+    <span>Supramundane UI Theme Studio</span>
+  </div>
+  <div class="actions">
+    <sm-button id="btn-edit" variant="primary" size="small">Edit Theme</sm-button>
+    <sm-button id="btn-load" size="small">Load CSS</sm-button>
+    <sm-button id="btn-save" variant="success" size="small">Save CSS</sm-button>
+    <sm-tooltip content="Toggle dark mode">
+      <sm-icon-button id="btn-dark" label="Toggle dark mode">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </sm-icon-button>
+    </sm-tooltip>
+  </div>
+</header>
+
+<!-- ═══ THEME DRAWER ══════════════════════════════════════════ -->
+<sm-drawer id="theme-drawer" label="Edit Theme" placement="end">
+  <sm-tabbed-pane>
+    <sm-tab-panel label="Colors">
+      <p style="font-size:.8rem;color:var(--sm-color-neutral-500);margin:0 0 1rem">Pick a color for each semantic role. The full shade scale is generated automatically.</p>
+      <div class="token-section">
+        <div class="color-row" id="color-controls"></div>
+      </div>
+    </sm-tab-panel>
+
+    <sm-tab-panel label="Typography">
+      <div class="token-section">
+        <h3>Font Families</h3>
+        <div id="font-controls"></div>
+      </div>
+      <div class="token-section">
+        <h3>Font Sizes</h3>
+        <div id="size-controls"></div>
+      </div>
+    </sm-tab-panel>
+
+    <sm-tab-panel label="Shape">
+      <div class="token-section">
+        <h3>Border Radius</h3>
+        <div id="radius-controls"></div>
+      </div>
+      <div class="token-section">
+        <h3>Spacing Scale</h3>
+        <div id="spacing-controls"></div>
+      </div>
+    </sm-tab-panel>
+
+    <sm-tab-panel label="Effects">
+      <div class="token-section">
+        <h3>Transitions</h3>
+        <div id="transition-controls"></div>
+      </div>
+      <div class="token-section">
+        <h3>Focus Ring</h3>
+        <div id="focus-controls"></div>
+      </div>
+    </sm-tab-panel>
+
+    <sm-tab-panel label="Components">
+      <p style="font-size:.8rem;color:var(--sm-color-neutral-500);margin:0 0 1rem">Component-level CSS custom properties.</p>
+      <div id="component-controls"></div>
+    </sm-tab-panel>
+  </sm-tabbed-pane>
+
+  <div slot="footer" class="drawer-footer">
+    <sm-button id="btn-reset" size="small" variant="neutral">Reset all</sm-button>
+    <div style="display:flex;gap:.5rem">
+      <sm-button id="btn-drawer-load" size="small">Load CSS</sm-button>
+      <sm-button id="btn-drawer-save" size="small" variant="success">Save CSS</sm-button>
+    </div>
+  </div>
+</sm-drawer>
+
+<!-- ═══ SHOWCASE ══════════════════════════════════════════════ -->
+<main id="showcase">
+
+  <!-- ─── Buttons ──────────────────────────────────────────── -->
+  <section>
+    <h2 class="section-title">Buttons</h2>
+    <div class="demo-group">
+      <div class="demo-group-label">Variants</div>
+      <div class="demo-row">
+        <sm-button variant="default">Default</sm-button>
+        <sm-button variant="primary">Primary</sm-button>
+        <sm-button variant="success">Success</sm-button>
+        <sm-button variant="warning">Warning</sm-button>
+        <sm-button variant="danger">Danger</sm-button>
+        <sm-button variant="neutral">Neutral</sm-button>
+        <sm-button variant="text">Text</sm-button>
+      </div>
+    </div>
+    <div class="demo-group">
+      <div class="demo-group-label">Outline</div>
+      <div class="demo-row">
+        <sm-button variant="default" outline>Default</sm-button>
+        <sm-button variant="primary" outline>Primary</sm-button>
+        <sm-button variant="success" outline>Success</sm-button>
+        <sm-button variant="warning" outline>Warning</sm-button>
+        <sm-button variant="danger" outline>Danger</sm-button>
+        <sm-button variant="neutral" outline>Neutral</sm-button>
+      </div>
+    </div>
+    <div class="demo-group">
+      <div class="demo-group-label">Sizes &amp; states</div>
+      <div class="demo-row">
+        <sm-button variant="primary" size="small">Small</sm-button>
+        <sm-button variant="primary" size="medium">Medium</sm-button>
+        <sm-button variant="primary" size="large">Large</sm-button>
+        <sm-button variant="primary" pill>Pill</sm-button>
+        <sm-button variant="primary" loading>Loading</sm-button>
+        <sm-button variant="primary" disabled>Disabled</sm-button>
+      </div>
+    </div>
+    <div class="demo-group">
+      <div class="demo-group-label">Icon buttons</div>
+      <div class="demo-row">
+        <sm-icon-button label="Settings" size="small">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+        </sm-icon-button>
+        <sm-icon-button label="Edit">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+        </sm-icon-button>
+        <sm-icon-button label="Delete" variant="danger">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+        </sm-icon-button>
+        <sm-icon-button label="Favourite" size="large">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+        </sm-icon-button>
+        <sm-icon-button label="Protected" disabled>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+        </sm-icon-button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Tags ─────────────────────────────────────────────── -->
+  <section>
+    <h2 class="section-title">Tags</h2>
+    <div class="demo-group">
+      <div class="demo-group-label">Variants</div>
+      <div class="demo-row">
+        <sm-tag variant="default">Default</sm-tag>
+        <sm-tag variant="primary">Primary</sm-tag>
+        <sm-tag variant="success">Success</sm-tag>
+        <sm-tag variant="warning">Warning</sm-tag>
+        <sm-tag variant="danger">Danger</sm-tag>
+        <sm-tag variant="neutral">Neutral</sm-tag>
+      </div>
+    </div>
+    <div class="demo-group">
+      <div class="demo-group-label">Sizes, pill &amp; removable</div>
+      <div class="demo-row">
+        <sm-tag size="small">Small</sm-tag>
+        <sm-tag size="medium">Medium</sm-tag>
+        <sm-tag size="large">Large</sm-tag>
+        <sm-tag variant="primary" pill>Pill</sm-tag>
+        <sm-tag variant="success" removable>Removable</sm-tag>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Form Controls ────────────────────────────────────── -->
+  <section>
+    <h2 class="section-title">Form Controls</h2>
+    <div class="demo-grid">
+      <sm-input label="Text input" placeholder="Enter text…"></sm-input>
+      <sm-input label="Password" type="password" placeholder="••••••••" password-toggle></sm-input>
+      <sm-input label="Search" type="search" placeholder="Search…" clearable></sm-input>
+      <sm-input label="With help text" placeholder="Placeholder" help-text="Helpful hint below."></sm-input>
+      <sm-input label="Filled style" placeholder="Placeholder" filled></sm-input>
+      <sm-input label="Disabled" value="Can't edit this" disabled></sm-input>
+      <div style="grid-column:span 2">
+        <sm-textarea label="Textarea" placeholder="Write something…" rows="3"></sm-textarea>
+      </div>
+      <sm-select label="Select" value="opt-1">
+        <sm-option value="opt-1">Option 1</sm-option>
+        <sm-option value="opt-2">Option 2</sm-option>
+        <sm-option value="opt-3">Option 3</sm-option>
+      </sm-select>
+      <sm-range label="Range slider" min="0" max="100" value="42"></sm-range>
+    </div>
+    <div class="demo-group" style="margin-top:1.25rem">
+      <div class="demo-group-label">Checkbox</div>
+      <div class="demo-row">
+        <sm-checkbox checked>Checked</sm-checkbox>
+        <sm-checkbox>Unchecked</sm-checkbox>
+        <sm-checkbox indeterminate>Indeterminate</sm-checkbox>
+        <sm-checkbox disabled>Disabled</sm-checkbox>
+      </div>
+    </div>
+    <div class="demo-group">
+      <div class="demo-group-label">Radio group</div>
+      <sm-radio-group value="a" name="demo-radios">
+        <sm-radio value="a">Option A</sm-radio>
+        <sm-radio value="b">Option B</sm-radio>
+        <sm-radio value="c">Option C</sm-radio>
+        <sm-radio value="d" disabled>Disabled</sm-radio>
+      </sm-radio-group>
+    </div>
+  </section>
+
+  <!-- ─── Rating ───────────────────────────────────────────── -->
+  <section>
+    <h2 class="section-title">Rating</h2>
+    <div class="demo-row">
+      <sm-rating value="3" max="5"></sm-rating>
+      <sm-rating value="4.5" max="5" precision="0.5"></sm-rating>
+      <sm-rating value="0" max="5"></sm-rating>
+      <sm-rating value="5" max="5" disabled></sm-rating>
+    </div>
+  </section>
+
+  <!-- ─── Progress ─────────────────────────────────────────── -->
+  <section>
+    <h2 class="section-title">Progress</h2>
+    <div class="progress-col">
+      <sm-progress-bar value="0" max="100" label="0%"></sm-progress-bar>
+      <sm-progress-bar value="25" max="100" label="25%"></sm-progress-bar>
+      <sm-progress-bar value="50" max="100" label="50%"></sm-progress-bar>
+      <sm-progress-bar value="75" max="100" label="75%"></sm-progress-bar>
+      <sm-progress-bar value="100" max="100" label="100%"></sm-progress-bar>
+      <sm-progress-bar indeterminate label="Loading…"></sm-progress-bar>
+    </div>
+  </section>
+
+  <!-- ─── Avatar ───────────────────────────────────────────── -->
+  <section>
+    <h2 class="section-title">Avatar</h2>
+    <div class="avatar-row">
+      <sm-avatar label="User" size="small"></sm-avatar>
+      <sm-avatar label="User" size="medium"></sm-avatar>
+      <sm-avatar label="User" size="large"></sm-avatar>
+      <sm-avatar label="RB" initials="RB" size="medium"></sm-avatar>
+      <sm-avatar label="Square" shape="square" size="medium"></sm-avatar>
+      <sm-avatar label="Rounded" shape="rounded" size="medium"></sm-avatar>
+    </div>
+  </section>
+
+  <!-- ─── Cards ────────────────────────────────────────────── -->
+  <section>
+    <h2 class="section-title">Cards</h2>
+    <div class="demo-row" style="align-items:flex-start;flex-wrap:wrap;gap:1rem">
+      <sm-card style="max-width:280px">
+        <div slot="image" style="height:120px;background:linear-gradient(135deg,var(--sm-color-accent-200),var(--sm-color-accent-600));display:flex;align-items:center;justify-content:center"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="36" height="36" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg></div>
+        <strong>Card with image</strong>
+        <p style="margin:.5rem 0 0;font-size:.875rem;color:var(--sm-color-neutral-600)">Cards support images, headers, bodies, and footers.</p>
+        <div slot="footer" style="display:flex;gap:.5rem">
+          <sm-button size="small" variant="primary">Action</sm-button>
+          <sm-button size="small">Cancel</sm-button>
+        </div>
+      </sm-card>
+      <sm-card style="max-width:280px">
+        <strong slot="header">Header + footer</strong>
+        <p style="margin:0;font-size:.875rem;color:var(--sm-color-neutral-600)">This card has both a header and footer slot populated.</p>
+        <div slot="footer"><sm-tag variant="success">Published</sm-tag></div>
+      </sm-card>
+      <sm-card style="max-width:280px">
+        <p style="margin:0;font-size:.875rem;color:var(--sm-color-neutral-600)">A body-only card — no header, no footer, just content.</p>
+      </sm-card>
+    </div>
+  </section>
+
+  <!-- ─── Tooltips & Dropdowns ─────────────────────────────── -->
+  <section>
+    <h2 class="section-title">Tooltip &amp; Dropdown</h2>
+    <div class="demo-group">
+      <div class="demo-group-label">Tooltips</div>
+      <div class="demo-row">
+        <sm-tooltip content="Top placement" placement="top"><sm-button size="small">Top</sm-button></sm-tooltip>
+        <sm-tooltip content="Bottom placement" placement="bottom"><sm-button size="small">Bottom</sm-button></sm-tooltip>
+        <sm-tooltip content="Left placement" placement="left"><sm-button size="small">Left</sm-button></sm-tooltip>
+        <sm-tooltip content="Right placement" placement="right"><sm-button size="small">Right</sm-button></sm-tooltip>
+      </div>
+    </div>
+    <div class="demo-group">
+      <div class="demo-group-label">Dropdown menus</div>
+      <div class="demo-row">
+        <sm-dropdown>
+          <sm-button slot="trigger">Options ▾</sm-button>
+          <sm-menu>
+            <sm-menu-item>Cut</sm-menu-item>
+            <sm-menu-item>Copy</sm-menu-item>
+            <sm-menu-item>Paste</sm-menu-item>
+            <sm-divider></sm-divider>
+            <sm-menu-item disabled>Disabled item</sm-menu-item>
+          </sm-menu>
+        </sm-dropdown>
+        <sm-dropdown>
+          <sm-button slot="trigger" variant="primary">Actions ▾</sm-button>
+          <sm-menu>
+            <sm-menu-item>Edit</sm-menu-item>
+            <sm-menu-item>Duplicate</sm-menu-item>
+            <sm-divider></sm-divider>
+            <sm-menu-item variant="danger">Delete</sm-menu-item>
+          </sm-menu>
+        </sm-dropdown>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Dialog & Drawer ──────────────────────────────────── -->
+  <section>
+    <h2 class="section-title">Dialog &amp; Drawer</h2>
+    <div class="demo-row">
+      <sm-button id="open-dialog" variant="primary">Open Dialog</sm-button>
+      <sm-button id="open-drawer-demo">Open Drawer</sm-button>
+    </div>
+  </section>
+
+  <!-- ─── Tabbed Pane ───────────────────────────────────────── -->
+  <section>
+    <h2 class="section-title">Tabbed Pane</h2>
+    <sm-tabbed-pane>
+      <sm-tab-panel label="General">
+        <p style="margin:0 0 1rem">General settings panel.</p>
+        <sm-input label="Display name" value="Robin Berjon" style="max-width:320px"></sm-input>
+      </sm-tab-panel>
+      <sm-tab-panel label="Privacy">
+        <p style="margin:0 0 1rem">Privacy settings panel.</p>
+        <sm-checkbox checked>Allow analytics</sm-checkbox>
+      </sm-tab-panel>
+      <sm-tab-panel label="Advanced">
+        <p style="margin:0 0 1rem">Advanced settings panel.</p>
+        <sm-button variant="danger" size="small">Reset All Settings</sm-button>
+      </sm-tab-panel>
+      <sm-tab-panel label="Disabled" disabled>
+        <p>This tab is disabled.</p>
+      </sm-tab-panel>
+    </sm-tabbed-pane>
+  </section>
+
+  <!-- ─── Breadcrumb ───────────────────────────────────────── -->
+  <section>
+    <h2 class="section-title">Breadcrumb</h2>
+    <sm-breadcrumb>
+      <sm-breadcrumb-item href="#">Home</sm-breadcrumb-item>
+      <sm-breadcrumb-item href="#">Library</sm-breadcrumb-item>
+      <sm-breadcrumb-item href="#">Components</sm-breadcrumb-item>
+      <sm-breadcrumb-item>Breadcrumb</sm-breadcrumb-item>
+    </sm-breadcrumb>
+  </section>
+
+  <!-- ─── Tree ─────────────────────────────────────────────── -->
+  <section>
+    <h2 class="section-title">Tree</h2>
+    <sm-tree style="max-width:320px">
+      <sm-tree-item expanded>
+        Documents
+        <sm-tree-item>
+          Work
+          <sm-tree-item>Quarterly Report.pdf</sm-tree-item>
+          <sm-tree-item>Budget.xlsx</sm-tree-item>
+        </sm-tree-item>
+        <sm-tree-item>
+          Personal
+          <sm-tree-item>Photos</sm-tree-item>
+          <sm-tree-item>Notes.txt</sm-tree-item>
+        </sm-tree-item>
+      </sm-tree-item>
+      <sm-tree-item>Downloads</sm-tree-item>
+      <sm-tree-item>Desktop</sm-tree-item>
+    </sm-tree>
+  </section>
+
+  <!-- ─── Split Panel ──────────────────────────────────────── -->
+  <section>
+    <h2 class="section-title">Split Panel</h2>
+    <div class="split-demo">
+      <sm-split-panel position="35" style="height:100%">
+        <div slot="start" class="split-panel-section">
+          <strong>Start Panel</strong>
+          <p style="color:var(--sm-color-neutral-600);margin:.5rem 0 0">Drag the divider to resize panels.</p>
+        </div>
+        <div slot="end" class="split-panel-section">
+          <strong>End Panel</strong>
+          <p style="color:var(--sm-color-neutral-600);margin:.5rem 0 0">Both panels are independently resizable.</p>
+        </div>
+      </sm-split-panel>
+    </div>
+  </section>
+
+  <!-- ─── Toolbar ──────────────────────────────────────────── -->
+  <section>
+    <h2 class="section-title">Toolbar</h2>
+    <sm-toolbar>
+      <sm-icon-button label="Bold">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true"><path d="M6 12h9a4 4 0 0 1 0 8H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h7a4 4 0 0 1 0 8"/></svg>
+      </sm-icon-button>
+      <sm-icon-button label="Italic">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true"><line x1="19" y1="4" x2="10" y2="4"/><line x1="14" y1="20" x2="5" y2="20"/><line x1="15" y1="4" x2="9" y2="20"/></svg>
+      </sm-icon-button>
+      <sm-icon-button label="Underline">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true"><path d="M6 4v6a6 6 0 0 0 12 0V4"/><line x1="4" y1="20" x2="20" y2="20"/></svg>
+      </sm-icon-button>
+      <sm-divider vertical style="height:1.5rem"></sm-divider>
+      <sm-icon-button label="Align left">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true"><line x1="21" y1="6" x2="3" y2="6"/><line x1="15" y1="12" x2="3" y2="12"/><line x1="17" y1="18" x2="3" y2="18"/></svg>
+      </sm-icon-button>
+      <sm-icon-button label="Align center">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true"><line x1="21" y1="6" x2="3" y2="6"/><line x1="17" y1="12" x2="7" y2="12"/><line x1="19" y1="18" x2="5" y2="18"/></svg>
+      </sm-icon-button>
+      <sm-icon-button label="Align right">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true"><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="12" x2="9" y2="12"/><line x1="21" y1="18" x2="7" y2="18"/></svg>
+      </sm-icon-button>
+      <sm-divider vertical style="height:1.5rem"></sm-divider>
+      <sm-icon-button label="Link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true"><path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 1 1 0 10h-2"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      </sm-icon-button>
+      <sm-icon-button label="Image">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+      </sm-icon-button>
+    </sm-toolbar>
+  </section>
+
+  <!-- ─── Copy Button ───────────────────────────────────────── -->
+  <section>
+    <h2 class="section-title">Copy Button</h2>
+    <div class="demo-row" style="align-items:center">
+      <sm-copy-button value="Copied to clipboard!"></sm-copy-button>
+      <sm-copy-button value="npm install @supramundane/ui" label="Copy install command"></sm-copy-button>
+      <code style="font-family:var(--sm-font-mono);font-size:.875rem;color:var(--sm-color-neutral-700)">npm install @supramundane/ui</code>
+    </div>
+  </section>
+
+  <!-- ─── Format Utilities ─────────────────────────────────── -->
+  <section>
+    <h2 class="section-title">Format Utilities</h2>
+    <table class="format-table">
+      <tr><td>Bytes</td><td><sm-format-bytes value="1024"></sm-format-bytes></td></tr>
+      <tr><td></td><td><sm-format-bytes value="1073741824"></sm-format-bytes></td></tr>
+      <tr><td>Number</td><td><sm-format-number value="1234567.89" type="decimal"></sm-format-number></td></tr>
+      <tr><td></td><td><sm-format-number value="0.455" type="percent"></sm-format-number></td></tr>
+      <tr><td></td><td><sm-format-number value="12.5" type="currency" currency="USD"></sm-format-number></td></tr>
+      <tr><td>Date</td><td><sm-format-date month="long" day="numeric" year="numeric"></sm-format-date></td></tr>
+      <tr><td>Relative time</td><td><sm-relative-time id="reltime"></sm-relative-time></td></tr>
+    </table>
+  </section>
+
+</main>
+
+<!-- Demo dialog -->
+<sm-dialog id="demo-dialog" label="Example Dialog">
+  <p>This is an <strong>sm-dialog</strong>. It traps focus and supports keyboard navigation.</p>
+  <sm-button slot="footer" variant="primary" id="close-dialog">Close</sm-button>
+</sm-dialog>
+
+<!-- Demo drawer -->
+<sm-drawer id="demo-drawer" label="Example Drawer" placement="end">
+  <p>This is an <strong>sm-drawer</strong>. It slides in from any edge of the viewport.</p>
+  <sm-button slot="footer" id="close-drawer">Close</sm-button>
+</sm-drawer>
+
+<input type="file" id="css-file-input" accept=".css" hidden>
+
+<script type="module">
+// ═══════════════════════════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════════════════════════
+
+// Shade scale: [stop, lightness%]
+const SHADE_STOPS = [
+  [50, 97], [100, 94], [200, 87], [300, 77],
+  [400, 66], [500, 54], [600, 44], [700, 36],
+  [800, 29], [900, 22], [950, 16],
+];
+
+const SEMANTIC_COLORS = [
+  { key: 'primary', label: 'Primary', hex: '#18181b', h: 240, s: 6  },
+  { key: 'accent',  label: 'Accent',  hex: '#0ea5e9', h: 199, s: 89 },
+  { key: 'success', label: 'Success', hex: '#22c55e', h: 142, s: 69 },
+  { key: 'warning', label: 'Warning', hex: '#f59e0b', h: 38,  s: 92 },
+  { key: 'danger',  label: 'Danger',  hex: '#ef4444', h: 0,   s: 90 },
+  { key: 'neutral', label: 'Neutral', hex: '#71717a', h: 240, s: 4  },
+];
+
+const DEFAULT_RADII = {
+  small:    { val: 0.1875, unit: 'rem', min: 0, max: 2,  step: 0.0625 },
+  medium:   { val: 0.25,   unit: 'rem', min: 0, max: 2,  step: 0.0625 },
+  large:    { val: 0.5,    unit: 'rem', min: 0, max: 2,  step: 0.0625 },
+  'x-large':{ val: 1,      unit: 'rem', min: 0, max: 4,  step: 0.125  },
+};
+
+const SPACING_STEPS = [
+  ['3x-small',0.125],['2x-small',0.25],['x-small',0.5],['small',0.75],
+  ['medium',1],['large',1.25],['x-large',1.75],['2x-large',2.25],
+  ['3x-large',3],['4x-large',4.5],
+];
+
+const DEFAULT_TRANSITIONS = { 'x-fast': 50, fast: 150, medium: 250, slow: 500, 'x-slow': 1000 };
+
+const DEFAULT_FONT_SIZES = {
+  '2x-small': 0.625, 'x-small': 0.75, small: 0.875, medium: 1,
+  large: 1.25, 'x-large': 1.5, '2x-large': 2.25, '3x-large': 3, '4x-large': 4.5,
+};
+
+const FONT_TYPES = [
+  { key: 'sans',  label: 'Sans-serif', fallback: 'sans-serif' },
+  { key: 'serif', label: 'Serif',      fallback: 'serif' },
+  { key: 'mono',  label: 'Monospace',  fallback: 'monospace' },
+];
+
+const COMPONENT_TOKEN_GROUPS = [
+  { label: 'Form Controls', tokens: [
+    { key: '--sm-input-height-small',  label: 'Height S',  unit: 'rem', def: 1.875, min: 1,   max: 4, step: 0.0625 },
+    { key: '--sm-input-height-medium', label: 'Height M',  unit: 'rem', def: 2.5,   min: 1.5, max: 5, step: 0.0625 },
+    { key: '--sm-input-height-large',  label: 'Height L',  unit: 'rem', def: 3.125, min: 2,   max: 6, step: 0.0625 },
+    { key: '--sm-input-border-width',  label: 'Border',    unit: 'px',  def: 1,     min: 0,   max: 4, step: 0.5   },
+  ]},
+  { label: 'Toggles', tokens: [
+    { key: '--sm-toggle-size-small',  label: 'Size S', unit: 'rem', def: 0.875, min: 0.5,  max: 2,   step: 0.0625 },
+    { key: '--sm-toggle-size-medium', label: 'Size M', unit: 'rem', def: 1.125, min: 0.75, max: 2.5, step: 0.0625 },
+    { key: '--sm-toggle-size-large',  label: 'Size L', unit: 'rem', def: 1.375, min: 1,    max: 3,   step: 0.0625 },
+  ]},
+  { label: 'Panels & Cards', tokens: [
+    { key: '--sm-panel-border-width', label: 'Border', unit: 'px', def: 1, min: 0, max: 4, step: 0.5 },
+  ]},
+  { label: 'Tooltip', tokens: [
+    { key: '--sm-tooltip-arrow-size', label: 'Arrow', unit: 'px', def: 6, min: 0, max: 16, step: 1 },
+  ]},
+  { label: 'Z-Index', tokens: [
+    { key: '--sm-z-index-drawer',   label: 'Drawer',   unit: '', def: 700,  min: 1, max: 9999, step: 10 },
+    { key: '--sm-z-index-dialog',   label: 'Dialog',   unit: '', def: 800,  min: 1, max: 9999, step: 10 },
+    { key: '--sm-z-index-dropdown', label: 'Dropdown', unit: '', def: 900,  min: 1, max: 9999, step: 10 },
+    { key: '--sm-z-index-tooltip',  label: 'Tooltip',  unit: '', def: 1000, min: 1, max: 9999, step: 10 },
+  ]},
+];
+
+const POPULAR_FONTS = [
+  'Albert Sans','Alegreya','Arimo','Arvo','Asap','Barlow','Barlow Condensed',
+  'Be Vietnam Pro','Bebas Neue','Bitter','Bricolage Grotesque',
+  'Cabin','Catamaran','Chivo','Comfortaa','Cormorant Garamond','Crimson Text',
+  'DM Mono','DM Sans','DM Serif Display','EB Garamond','Encode Sans','Epilogue',
+  'Figtree','Fira Code','Fira Mono','Fira Sans','Fraunces',
+  'Geist','Geist Mono','Hanken Grotesk','Heebo','IBM Plex Mono','IBM Plex Sans',
+  'IBM Plex Serif','Inconsolata','Inter','JetBrains Mono','Josefin Sans','Jost',
+  'Kanit','Karla','Lato','Lexend','Libre Baskerville','Libre Franklin','Lora',
+  'Manrope','Merriweather','Montserrat','Mulish',
+  'Noto Sans','Noto Serif','Nunito','Nunito Sans',
+  'Open Sans','Oswald','Outfit','Overpass','Oxygen',
+  'Playfair Display','Plus Jakarta Sans','Poppins','Quicksand',
+  'Raleway','Readex Pro','Roboto','Roboto Condensed','Roboto Mono','Roboto Slab',
+  'Rubik','Source Code Pro','Source Sans 3','Source Serif 4','Space Grotesk',
+  'Space Mono','Spectral','Titillium Web','Ubuntu','Urbanist','Work Sans',
+].sort();
+
+// ═══════════════════════════════════════════════════════════
+// COLOR UTILITIES
+// ═══════════════════════════════════════════════════════════
+
+function hexToHs(hex) {
+  const r = parseInt(hex.slice(1,3),16)/255;
+  const g = parseInt(hex.slice(3,5),16)/255;
+  const b = parseInt(hex.slice(5,7),16)/255;
+  const max = Math.max(r,g,b), min = Math.min(r,g,b), delta = max - min;
+  let h = 0, s = 0;
+  if (delta > 0) {
+    s = delta / (1 - Math.abs(max + min - 1));
+    if (max === r)      h = 60 * (((g - b) / delta) % 6);
+    else if (max === g) h = 60 * ((b - r) / delta + 2);
+    else                h = 60 * ((r - g) / delta + 4);
+    if (h < 0) h += 360;
+  }
+  return { h: Math.round(h), s: Math.round(s * 100) };
+}
+
+function hslToHex(h, s, l) {
+  s /= 100; l /= 100;
+  const a = s * Math.min(l, 1 - l);
+  const f = n => {
+    const k = (n + h / 30) % 12;
+    return Math.round(255 * (l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)))).toString(16).padStart(2, '0');
+  };
+  return `#${f(0)}${f(8)}${f(4)}`;
+}
+
+function generateScale(h, s) {
+  return SHADE_STOPS.map(([shade, l]) => ({ shade, value: `hsl(${h}deg ${s}% ${l}%)` }));
+}
+
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+
+const state = {
+  darkMode: false,
+  colors: Object.fromEntries(SEMANTIC_COLORS.map(c => [c.key, { h: c.h, s: c.s }])),
+  fonts: { sans: null, serif: null, mono: null },
+  radii: Object.fromEntries(Object.entries(DEFAULT_RADII).map(([k,v]) => [k, v.val])),
+  spacingBase: 1,
+  transitionSpeed: 1,
+  focusRingWidth: 3,
+  focusRingOffset: 1,
+  fontSizes: { ...DEFAULT_FONT_SIZES },
+  componentTokens: {},
+  googleFonts: [...POPULAR_FONTS],
+};
+
+let customStyleEl = null;
+
+// ═══════════════════════════════════════════════════════════
+// THEME APPLICATION
+// ═══════════════════════════════════════════════════════════
+
+function buildCSS(forExport = false) {
+  const lines = [];
+
+  // Semantic color scales
+  for (const { key, h: dh, s: ds } of SEMANTIC_COLORS) {
+    const { h, s } = state.colors[key];
+    if (!forExport && h === dh && s === ds) continue;
+    for (const { shade, value } of generateScale(h, s)) {
+      lines.push(`  --sm-color-${key}-${shade}: ${value};`);
+    }
+  }
+
+  // Fonts
+  for (const { key, fallback } of FONT_TYPES) {
+    if (state.fonts[key]) {
+      lines.push(`  --sm-font-${key}: '${state.fonts[key]}', ${fallback};`);
+    }
+  }
+
+  // Font sizes
+  for (const [name, defVal] of Object.entries(DEFAULT_FONT_SIZES)) {
+    const val = state.fontSizes[name];
+    if (!forExport && val === defVal) continue;
+    lines.push(`  --sm-font-size-${name}: ${val}rem;`);
+  }
+
+  // Border radii
+  for (const [name, cfg] of Object.entries(DEFAULT_RADII)) {
+    const val = state.radii[name];
+    if (!forExport && val === cfg.val) continue;
+    lines.push(`  --sm-border-radius-${name}: ${val}rem;`);
+  }
+
+  // Spacing
+  if (forExport || state.spacingBase !== 1) {
+    for (const [name, base] of SPACING_STEPS) {
+      lines.push(`  --sm-spacing-${name}: ${(base * state.spacingBase).toFixed(4).replace(/\.?0+$/, '')}rem;`);
+    }
+  }
+
+  // Transitions
+  if (forExport || state.transitionSpeed !== 1) {
+    for (const [name, ms] of Object.entries(DEFAULT_TRANSITIONS)) {
+      lines.push(`  --sm-transition-${name}: ${Math.round(ms * state.transitionSpeed)}ms;`);
+    }
+  }
+
+  // Focus ring
+  if (forExport || state.focusRingWidth !== 3 || state.focusRingOffset !== 1) {
+    lines.push(`  --sm-focus-ring-width: ${state.focusRingWidth}px;`);
+    lines.push(`  --sm-focus-ring-offset: ${state.focusRingOffset}px;`);
+  }
+
+  // Component overrides
+  for (const [key, value] of Object.entries(state.componentTokens)) {
+    lines.push(`  ${key}: ${value};`);
+  }
+
+  return lines.join('\n');
+}
+
+function applyTheme() {
+  if (!customStyleEl) {
+    customStyleEl = document.createElement('style');
+    customStyleEl.id = 'sg-custom-theme';
+    document.head.appendChild(customStyleEl);
+  }
+  customStyleEl.textContent = `:root {\n${buildCSS()}\n}`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// DARK MODE
+// ═══════════════════════════════════════════════════════════
+
+let darkLinkEl = null;
+
+function applyDarkMode() {
+  if (state.darkMode) {
+    document.documentElement.classList.add('sm-theme-dark');
+    if (!darkLinkEl) {
+      darkLinkEl = document.createElement('link');
+      darkLinkEl.rel = 'stylesheet';
+      darkLinkEl.href = '../src/tokens/dark.css';
+      document.head.appendChild(darkLinkEl);
+    }
+  } else {
+    document.documentElement.classList.remove('sm-theme-dark');
+    if (darkLinkEl) {
+      darkLinkEl.remove();
+      darkLinkEl = null;
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// GOOGLE FONTS
+// ═══════════════════════════════════════════════════════════
+
+async function loadGoogleFonts() {
+  try {
+    const resp = await fetch('https://fonts.google.com/metadata/fonts');
+    if (!resp.ok) throw new Error();
+    let text = await resp.text();
+    if (text.startsWith(")]}'\n")) text = text.slice(5);
+    const data = JSON.parse(text);
+    state.googleFonts = data.familyMetadataList.map(f => f.family).sort();
+  } catch { /* use fallback */ }
+}
+
+const previewLinkEls = {};
+function previewFont(family, type) {
+  if (!previewLinkEls[type]) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+    previewLinkEls[type] = link;
+  }
+  const { fallback } = FONT_TYPES.find(f => f.key === type);
+  previewLinkEls[type].href =
+    `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:wght@400;700&display=swap`;
+  state.fonts[type] = family;
+  applyTheme();
+  const preview = document.querySelector(`#fp-preview-${type}`);
+  if (preview) { preview.style.fontFamily = `'${family}', ${fallback}`; preview.textContent = family; }
+}
+
+function clearFont(type) {
+  if (previewLinkEls[type]) previewLinkEls[type].href = '';
+  state.fonts[type] = null;
+  applyTheme();
+  const preview = document.querySelector(`#fp-preview-${type}`);
+  if (preview) { preview.style.fontFamily = ''; preview.textContent = ''; }
+}
+
+// ═══════════════════════════════════════════════════════════
+// UI BUILDERS
+// ═══════════════════════════════════════════════════════════
+
+function updateScalePreview(previewEl, h, s) {
+  previewEl.innerHTML = '';
+  for (const [, l] of SHADE_STOPS) {
+    const span = document.createElement('span');
+    span.style.background = `hsl(${h}deg ${s}% ${l}%)`;
+    span.title = `${l}%`;
+    previewEl.appendChild(span);
+  }
+}
+
+function buildColorControls() {
+  const container = document.getElementById('color-controls');
+  for (const color of SEMANTIC_COLORS) {
+    const item = document.createElement('div');
+    item.className = 'color-item';
+
+    const label = document.createElement('label');
+    label.textContent = color.label;
+    label.htmlFor = `color-${color.key}`;
+    item.appendChild(label);
+
+    const picker = document.createElement('input');
+    picker.type = 'color';
+    picker.id = `color-${color.key}`;
+    // Convert current h,s to a representative hex (use shade 500 lightness ≈ 54%)
+    picker.value = hslToHex(color.h, color.s, 54);
+    item.appendChild(picker);
+
+    const scalePreview = document.createElement('div');
+    scalePreview.className = 'color-scale-preview';
+    updateScalePreview(scalePreview, color.h, color.s);
+    item.appendChild(scalePreview);
+
+    const resetBtn = document.createElement('button');
+    resetBtn.className = 'reset-btn';
+    resetBtn.title = 'Reset';
+    resetBtn.textContent = '↺';
+    item.appendChild(resetBtn);
+
+    picker.addEventListener('input', () => {
+      const { h, s } = hexToHs(picker.value);
+      state.colors[color.key] = { h, s };
+      resetBtn.classList.toggle('changed', h !== color.h || s !== color.s);
+      updateScalePreview(scalePreview, h, s);
+      applyTheme();
+    });
+
+    resetBtn.addEventListener('click', () => {
+      state.colors[color.key] = { h: color.h, s: color.s };
+      picker.value = hslToHex(color.h, color.s, 54);
+      resetBtn.classList.remove('changed');
+      updateScalePreview(scalePreview, color.h, color.s);
+      applyTheme();
+    });
+
+    container.appendChild(item);
+  }
+}
+
+function buildFontControls() {
+  const container = document.getElementById('font-controls');
+  for (const ft of FONT_TYPES) {
+    const wrap = document.createElement('div');
+    wrap.className = 'font-picker-wrap';
+    wrap.innerHTML = `
+      <label for="fp-${ft.key}">${ft.label}</label>
+      <div class="font-picker-input-row">
+        <input type="text" id="fp-${ft.key}" placeholder="e.g. Inter" autocomplete="off">
+        <button class="reset-btn" id="fp-clear-${ft.key}" title="Clear">✕</button>
+      </div>
+      <div class="font-dropdown" id="fp-dd-${ft.key}"></div>
+      <div class="font-preview" id="fp-preview-${ft.key}"></div>
+    `;
+    container.appendChild(wrap);
+
+    const input = wrap.querySelector(`#fp-${ft.key}`);
+    const dropdown = wrap.querySelector(`#fp-dd-${ft.key}`);
+    const clearBtn = wrap.querySelector(`#fp-clear-${ft.key}`);
+
+    input.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      const matches = q ? state.googleFonts.filter(f => f.toLowerCase().includes(q)).slice(0, 20) : [];
+      dropdown.innerHTML = '';
+      for (const f of matches) {
+        const item = document.createElement('div');
+        item.className = 'font-dropdown-item';
+        item.textContent = f;
+        item.addEventListener('mousedown', e => {
+          e.preventDefault();
+          input.value = f;
+          dropdown.classList.remove('open');
+          previewFont(f, ft.key);
+        });
+        dropdown.appendChild(item);
+      }
+      dropdown.classList.toggle('open', matches.length > 0);
+    });
+
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        const val = input.value.trim();
+        if (val) { previewFont(val, ft.key); dropdown.classList.remove('open'); }
+      } else if (e.key === 'Escape') {
+        dropdown.classList.remove('open');
+      }
+    });
+
+    input.addEventListener('blur', () => setTimeout(() => dropdown.classList.remove('open'), 150));
+
+    clearBtn.addEventListener('click', () => {
+      input.value = '';
+      clearFont(ft.key);
+    });
+  }
+}
+
+function buildSizeControls() {
+  const container = document.getElementById('size-controls');
+  for (const [name, defVal] of Object.entries(DEFAULT_FONT_SIZES)) {
+    container.appendChild(makeSliderRow({
+      label: name, val: defVal, min: 0.5, max: 6, step: 0.0625, unit: 'rem', def: defVal,
+      onChange: v => { state.fontSizes[name] = v; applyTheme(); },
+      onReset:  () => { state.fontSizes[name] = defVal; applyTheme(); },
+    }));
+  }
+}
+
+function buildRadiusControls() {
+  const container = document.getElementById('radius-controls');
+  for (const [name, cfg] of Object.entries(DEFAULT_RADII)) {
+    container.appendChild(makeSliderRow({
+      label: name, val: cfg.val, min: cfg.min, max: cfg.max, step: cfg.step, unit: cfg.unit, def: cfg.val,
+      onChange: v => { state.radii[name] = v; applyTheme(); },
+      onReset:  () => { state.radii[name] = cfg.val; applyTheme(); },
+    }));
+  }
+}
+
+function buildSpacingControls() {
+  const container = document.getElementById('spacing-controls');
+  container.appendChild(makeSliderRow({
+    label: 'Scale ×', val: 1, min: 0.5, max: 2, step: 0.05, unit: '×', def: 1,
+    format: v => v.toFixed(2) + '×',
+    onChange: v => { state.spacingBase = v; applyTheme(); },
+    onReset:  () => { state.spacingBase = 1; applyTheme(); },
+  }));
+}
+
+function buildTransitionControls() {
+  const container = document.getElementById('transition-controls');
+  container.appendChild(makeSliderRow({
+    label: 'Speed ×', val: 1, min: 0, max: 4, step: 0.05, unit: '×', def: 1,
+    format: v => v.toFixed(2) + '×',
+    onChange: v => { state.transitionSpeed = v; applyTheme(); },
+    onReset:  () => { state.transitionSpeed = 1; applyTheme(); },
+  }));
+}
+
+function buildFocusControls() {
+  const container = document.getElementById('focus-controls');
+  container.appendChild(makeSliderRow({
+    label: 'Width', val: 3, min: 0, max: 8, step: 0.5, unit: 'px', def: 3,
+    onChange: v => { state.focusRingWidth = v; applyTheme(); },
+    onReset:  () => { state.focusRingWidth = 3; applyTheme(); },
+  }));
+  container.appendChild(makeSliderRow({
+    label: 'Offset', val: 1, min: 0, max: 8, step: 0.5, unit: 'px', def: 1,
+    onChange: v => { state.focusRingOffset = v; applyTheme(); },
+    onReset:  () => { state.focusRingOffset = 1; applyTheme(); },
+  }));
+}
+
+function buildComponentControls() {
+  const container = document.getElementById('component-controls');
+  for (const group of COMPONENT_TOKEN_GROUPS) {
+    const section = document.createElement('div');
+    section.className = 'token-section';
+    const h = document.createElement('h3');
+    h.textContent = group.label;
+    section.appendChild(h);
+    for (const tok of group.tokens) {
+      section.appendChild(makeSliderRow({
+        label: tok.label, val: tok.def, min: tok.min, max: tok.max, step: tok.step, unit: tok.unit, def: tok.def,
+        onChange: v => {
+          state.componentTokens[tok.key] = tok.unit ? `${v}${tok.unit}` : `${v}`;
+          applyTheme();
+        },
+        onReset: () => { delete state.componentTokens[tok.key]; applyTheme(); },
+      }));
+    }
+    container.appendChild(section);
+  }
+}
+
+function makeSliderRow({ label, val, min, max, step, unit, def, format, onChange, onReset }) {
+  const row = document.createElement('div');
+  row.className = 'slider-row';
+
+  const lbl = document.createElement('label');
+  lbl.textContent = label;
+  row.appendChild(lbl);
+
+  const input = document.createElement('input');
+  input.type = 'range';
+  input.min = min; input.max = max; input.step = step; input.value = val;
+  row.appendChild(input);
+
+  const fmt = v => format ? format(v) : unit === '×' ? v.toFixed(2) + '×' : `${v}${unit}`;
+  const valSpan = document.createElement('span');
+  valSpan.className = 'val';
+  valSpan.textContent = fmt(val);
+  row.appendChild(valSpan);
+
+  const resetBtn = document.createElement('button');
+  resetBtn.className = 'reset-btn' + (val !== def ? ' changed' : '');
+  resetBtn.title = 'Reset';
+  resetBtn.textContent = '↺';
+  row.appendChild(resetBtn);
+
+  input.addEventListener('input', () => {
+    const v = parseFloat(input.value);
+    valSpan.textContent = fmt(v);
+    resetBtn.classList.toggle('changed', v !== def);
+    onChange(v);
+  });
+
+  resetBtn.addEventListener('click', () => {
+    input.value = def;
+    valSpan.textContent = fmt(def);
+    resetBtn.classList.remove('changed');
+    onReset();
+  });
+
+  return row;
+}
+
+// ═══════════════════════════════════════════════════════════
+// CSS SAVE / LOAD
+// ═══════════════════════════════════════════════════════════
+
+function saveCSS() {
+  const css = `:root {\n${buildCSS(true)}\n}\n`;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([css], { type: 'text/css' }));
+  a.download = 'supramundane-theme.css';
+  a.click();
+}
+
+function loadCSS(text) {
+  const m = text.match(/:root\s*\{([^}]+)\}/s);
+  if (!m) return;
+  const props = {};
+  for (const [, key, val] of text.matchAll(/(--[\w-]+)\s*:\s*([^;]+);/g)) {
+    props[key.trim()] = val.trim();
+  }
+
+  // Colors: detect by finding shade 500 hsl values
+  for (const color of SEMANTIC_COLORS) {
+    const v = props[`--sm-color-${color.key}-500`];
+    if (v) {
+      const hm = v.match(/hsl\((\d+)deg\s+(\d+)%/);
+      if (hm) state.colors[color.key] = { h: +hm[1], s: +hm[2] };
+    }
+  }
+
+  // Fonts
+  for (const ft of FONT_TYPES) {
+    const v = props[`--sm-font-${ft.key}`];
+    if (v) { state.fonts[ft.key] = v.replace(/,.*/, '').replace(/['"]/g, '').trim(); }
+  }
+
+  // Font sizes
+  for (const name of Object.keys(DEFAULT_FONT_SIZES)) {
+    const v = props[`--sm-font-size-${name}`];
+    if (v) state.fontSizes[name] = parseFloat(v);
+  }
+
+  // Radii
+  for (const name of Object.keys(DEFAULT_RADII)) {
+    const v = props[`--sm-border-radius-${name}`];
+    if (v) state.radii[name] = parseFloat(v);
+  }
+
+  // Spacing base (from medium)
+  const med = props['--sm-spacing-medium'];
+  if (med) state.spacingBase = parseFloat(med);
+
+  // Transition speed (from fast)
+  const fast = props['--sm-transition-fast'];
+  if (fast) state.transitionSpeed = parseFloat(fast) / 150;
+
+  // Focus
+  if (props['--sm-focus-ring-width']) state.focusRingWidth = parseFloat(props['--sm-focus-ring-width']);
+  if (props['--sm-focus-ring-offset']) state.focusRingOffset = parseFloat(props['--sm-focus-ring-offset']);
+
+  // Component tokens
+  for (const g of COMPONENT_TOKEN_GROUPS) {
+    for (const tok of g.tokens) {
+      if (props[tok.key] !== undefined) state.componentTokens[tok.key] = props[tok.key];
+    }
+  }
+
+  rebuildUI();
+  applyTheme();
+}
+
+function rebuildUI() {
+  for (const id of ['color-controls','font-controls','size-controls','radius-controls',
+    'spacing-controls','transition-controls','focus-controls','component-controls']) {
+    document.getElementById(id).innerHTML = '';
+  }
+  buildColorControls();
+  buildFontControls();
+  buildSizeControls();
+  buildRadiusControls();
+  buildSpacingControls();
+  buildTransitionControls();
+  buildFocusControls();
+  buildComponentControls();
+
+  // Sync color pickers to current state
+  for (const color of SEMANTIC_COLORS) {
+    const picker = document.getElementById(`color-${color.key}`);
+    if (picker) {
+      const { h, s } = state.colors[color.key];
+      picker.value = hslToHex(h, s, 54);
+    }
+  }
+}
+
+function resetAll() {
+  state.colors = Object.fromEntries(SEMANTIC_COLORS.map(c => [c.key, { h: c.h, s: c.s }]));
+  state.fonts = { sans: null, serif: null, mono: null };
+  state.radii = Object.fromEntries(Object.entries(DEFAULT_RADII).map(([k,v]) => [k, v.val]));
+  state.spacingBase = 1;
+  state.transitionSpeed = 1;
+  state.focusRingWidth = 3;
+  state.focusRingOffset = 1;
+  state.fontSizes = { ...DEFAULT_FONT_SIZES };
+  state.componentTokens = {};
+  for (const el of Object.values(previewLinkEls)) el.href = '';
+  rebuildUI();
+  if (customStyleEl) customStyleEl.textContent = '';
+}
+
+// ═══════════════════════════════════════════════════════════
+// WIRE-UP
+// ═══════════════════════════════════════════════════════════
+
+document.getElementById('btn-edit').addEventListener('click', () =>
+  document.getElementById('theme-drawer').show()
+);
+document.getElementById('btn-dark').addEventListener('click', () => {
+  state.darkMode = !state.darkMode;
+  applyDarkMode();
+});
+document.getElementById('btn-save').addEventListener('click', saveCSS);
+document.getElementById('btn-drawer-save').addEventListener('click', saveCSS);
+document.getElementById('btn-reset').addEventListener('click', resetAll);
+
+const loadHandler = () => document.getElementById('css-file-input').click();
+document.getElementById('btn-load').addEventListener('click', loadHandler);
+document.getElementById('btn-drawer-load').addEventListener('click', loadHandler);
+
+document.getElementById('css-file-input').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => loadCSS(ev.target.result);
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+document.getElementById('open-dialog').addEventListener('click', () =>
+  document.getElementById('demo-dialog').show()
+);
+document.getElementById('close-dialog').addEventListener('click', () =>
+  document.getElementById('demo-dialog').hide()
+);
+document.getElementById('open-drawer-demo').addEventListener('click', () =>
+  document.getElementById('demo-drawer').show()
+);
+document.getElementById('close-drawer').addEventListener('click', () =>
+  document.getElementById('demo-drawer').hide()
+);
+
+// Relative time: 5 minutes ago
+const reltime = document.getElementById('reltime');
+if (reltime) reltime.setAttribute('date', new Date(Date.now() - 5 * 60 * 1000).toISOString());
+
+// Build UI
+buildColorControls();
+buildFontControls();
+buildSizeControls();
+buildRadiusControls();
+buildSpacingControls();
+buildTransitionControls();
+buildFocusControls();
+buildComponentControls();
+loadGoogleFonts();
+</script>
+</body>
+</html>

@@ -152,14 +152,14 @@ export class SmButton extends LitElement {
       color: var(--sm-color-neutral-700);
     }
     .button--default:hover:not(.button--disabled) {
-      background-color: var(--sm-color-primary-50);
-      border-color: var(--sm-color-primary-300);
-      color: var(--sm-color-primary-700);
+      background-color: var(--sm-color-accent-50);
+      border-color: var(--sm-color-accent-300);
+      color: var(--sm-color-accent-700);
     }
     .button--default:active:not(.button--disabled) {
-      background-color: var(--sm-color-primary-100);
-      border-color: var(--sm-color-primary-400);
-      color: var(--sm-color-primary-700);
+      background-color: var(--sm-color-accent-100);
+      border-color: var(--sm-color-accent-400);
+      color: var(--sm-color-accent-700);
     }
 
     /* Primary */
@@ -251,17 +251,17 @@ export class SmButton extends LitElement {
     .button--text {
       background-color: transparent;
       border-color: transparent;
-      color: var(--sm-color-primary-600);
+      color: var(--sm-color-accent-600);
     }
     .button--text:hover:not(.button--disabled) {
       background-color: transparent;
       border-color: transparent;
-      color: var(--sm-color-primary-500);
+      color: var(--sm-color-accent-500);
     }
     .button--text:active:not(.button--disabled) {
       background-color: transparent;
       border-color: transparent;
-      color: var(--sm-color-primary-700);
+      color: var(--sm-color-accent-700);
     }
 
     /* ---- Outline modifier ---- */
@@ -369,6 +369,8 @@ export class SmButton extends LitElement {
 
     .button__spinner {
       position: absolute;
+      inset: 0;
+      margin: auto;
       display: inline-flex;
       align-items: center;
       justify-content: center;

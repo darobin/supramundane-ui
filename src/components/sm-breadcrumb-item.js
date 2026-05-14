@@ -30,13 +30,13 @@ export class SmBreadcrumbItem extends LitElement {
     }
 
     .breadcrumb-item__label a {
-      color: var(--sm-color-primary-600);
+      color: var(--sm-color-accent-600);
       text-decoration: none;
       transition: var(--sm-transition-fast) color;
     }
 
     .breadcrumb-item__label a:hover {
-      color: var(--sm-color-primary-700);
+      color: var(--sm-color-accent-700);
       text-decoration: underline;
     }
 

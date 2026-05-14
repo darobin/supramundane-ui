@@ -43,12 +43,12 @@ export class SmOption extends LitElement {
     }
 
     :host([selected]) .option {
-      background-color: var(--sm-color-primary-50);
-      color: var(--sm-color-primary-700);
+      background-color: var(--sm-color-accent-50);
+      color: var(--sm-color-accent-700);
     }
 
     :host([selected]) .option:hover {
-      background-color: var(--sm-color-primary-100);
+      background-color: var(--sm-color-accent-100);
     }
   `;
 

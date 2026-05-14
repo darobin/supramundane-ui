@@ -60,7 +60,7 @@ export class SmSplitPanel extends LitElement {
 
     .split-panel__divider:hover:not(.split-panel__divider--disabled),
     .split-panel__divider:focus-visible:not(.split-panel__divider--disabled) {
-      background: var(--sm-color-primary-400);
+      background: var(--sm-color-accent-400);
     }
 
     .split-panel__divider:focus-visible {
@@ -122,9 +122,6 @@ export class SmSplitPanel extends LitElement {
 
   #handlePointerMove(e) {
     if (!this.#dragging) return;
-    const container = this.shadowRoot?.querySelector('.split-panel__start')?.parentElement;
-    if (!container) return;
-
     const containerRect = this.getBoundingClientRect();
     const dimension = this.vertical ? containerRect.height : containerRect.width;
     if (dimension === 0) return;

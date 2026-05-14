@@ -88,8 +88,8 @@ export class SmCheckbox extends LitElement {
     /* Checked / indeterminate */
     :host([checked]) .checkbox__control,
     :host([indeterminate]) .checkbox__control {
-      background-color: var(--sm-color-primary-600);
-      border-color: var(--sm-color-primary-600);
+      background-color: var(--sm-color-accent-600);
+      border-color: var(--sm-color-accent-600);
     }
 
     /* Sizes */

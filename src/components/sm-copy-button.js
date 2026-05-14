@@ -40,9 +40,9 @@ export class SmCopyButton extends LitElement {
     }
 
     .copy-button:hover {
-      background-color: var(--sm-color-primary-50);
-      border-color: var(--sm-color-primary-300);
-      color: var(--sm-color-primary-700);
+      background-color: var(--sm-color-accent-50);
+      border-color: var(--sm-color-accent-300);
+      color: var(--sm-color-accent-700);
     }
 
     .copy-button:focus-visible {

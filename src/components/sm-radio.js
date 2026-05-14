@@ -78,7 +78,7 @@ export class SmRadio extends LitElement {
 
     /* Checked state */
     :host([checked]) .radio__control {
-      border-color: var(--sm-color-primary-600);
+      border-color: var(--sm-color-accent-600);
     }
 
     /* Inner dot */
@@ -91,7 +91,7 @@ export class SmRadio extends LitElement {
     }
 
     :host([checked]) .radio__dot {
-      background-color: var(--sm-color-primary-600);
+      background-color: var(--sm-color-accent-600);
     }
 
     /* Sizes */

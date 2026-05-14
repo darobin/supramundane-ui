@@ -23,7 +23,7 @@ export class SmProgressBar extends LitElement {
 
     .progress-bar__fill {
       height: 100%;
-      background-color: var(--sm-color-primary-600);
+      background-color: var(--sm-color-accent-600);
       border-radius: inherit;
       transition: width var(--sm-transition-medium);
       transform-origin: left center;

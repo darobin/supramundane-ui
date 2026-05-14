@@ -46,12 +46,12 @@ export class SmTreeItem extends LitElement {
     }
 
     .tree-item__item--selected {
-      background-color: var(--sm-color-primary-50);
-      color: var(--sm-color-primary-700);
+      background-color: var(--sm-color-accent-50);
+      color: var(--sm-color-accent-700);
     }
 
     .tree-item__item--selected:hover {
-      background-color: var(--sm-color-primary-100);
+      background-color: var(--sm-color-accent-100);
     }
 
     .tree-item__item--disabled {
@@ -148,9 +148,17 @@ export class SmTreeItem extends LitElement {
     this._lazyLoaded = false;
   }
 
-  #handleSlotChange(e) {
-    const slot = e.target;
-    const children = slot.assignedElements({ flatten: true });
+  // Default slot holds label text. Any sm-tree-item children get redirected
+  // to the named "children" slot so mixed content works naturally.
+  #handleLabelSlotChange(e) {
+    const assigned = e.target.assignedElements({ flatten: true });
+    for (const el of assigned) {
+      if (el.tagName?.toLowerCase() === 'sm-tree-item') el.slot = 'children';
+    }
+  }
+
+  #handleChildrenSlotChange(e) {
+    const children = e.target.assignedElements({ flatten: true });
     this._hasChildren = children.some(el => el.tagName?.toLowerCase() === 'sm-tree-item');
   }
 
@@ -241,7 +249,7 @@ export class SmTreeItem extends LitElement {
           ` : html`<span class="tree-item__expand--placeholder"></span>`}
 
           <div class="tree-item__label" part="label">
-            <slot name="label"></slot>
+            <slot @slotchange=${this.#handleLabelSlotChange}></slot>
           </div>
         </div>
 
@@ -251,7 +259,7 @@ export class SmTreeItem extends LitElement {
           part="children"
         >
           <div class="tree-item__children-inner">
-            <slot @slotchange=${this.#handleSlotChange}></slot>
+            <slot name="children" @slotchange=${this.#handleChildrenSlotChange}></slot>
           </div>
         </div>
       </div>

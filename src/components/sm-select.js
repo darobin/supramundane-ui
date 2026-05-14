@@ -114,8 +114,8 @@ export class SmSelect extends LitElement {
       gap: var(--sm-spacing-2x-small);
       padding: 0 var(--sm-spacing-x-small);
       height: 1.375rem;
-      background: var(--sm-color-primary-100);
-      color: var(--sm-color-primary-700);
+      background: var(--sm-color-accent-100);
+      color: var(--sm-color-accent-700);
       border-radius: var(--sm-border-radius-small);
       font-size: var(--sm-font-size-x-small);
       font-weight: var(--sm-font-weight-semibold);

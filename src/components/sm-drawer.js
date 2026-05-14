@@ -20,8 +20,9 @@ export class SmDrawer extends LitElement {
       inset: 0;
     }
 
+    /* Base: hidden when closed. display:none prevents layout and hit-testing. */
     dialog {
-      display: flex;
+      display: none;
       flex-direction: column;
       padding: 0;
       border: none;
@@ -33,17 +34,11 @@ export class SmDrawer extends LitElement {
       margin: 0;
       max-width: none;
       max-height: none;
-      opacity: 0;
       transition:
         opacity var(--sm-transition-medium),
         transform var(--sm-transition-medium),
         display var(--sm-transition-medium) allow-discrete,
         overlay var(--sm-transition-medium) allow-discrete;
-    }
-
-    dialog[open] {
-      opacity: 1;
-      transform: translate(0, 0);
     }
 
     dialog::backdrop {
@@ -60,41 +55,59 @@ export class SmDrawer extends LitElement {
     }
 
     @starting-style {
-      dialog[open]::backdrop {
-        opacity: 0;
-      }
+      dialog[open]::backdrop { opacity: 0; }
     }
 
-    /* Placement: end (default) */
+    /* Placement: end (default) — position + closed transform */
     :host([placement="end"]) dialog,
     :host(:not([placement])) dialog {
+      inset-inline-start: auto; /* clear UA's left:0 so right:0 takes effect */
       inset-inline-end: 0;
       inset-block: 0;
       width: min(90vw, 28rem);
       height: 100dvh;
       border-radius: var(--sm-border-radius-large) 0 0 var(--sm-border-radius-large);
+      opacity: 0;
       transform: translateX(100%);
+    }
+
+    /* Open state: higher specificity than placement selector → wins */
+    :host([placement="end"]) dialog[open],
+    :host(:not([placement])) dialog[open] {
+      display: flex;
+      opacity: 1;
+      transform: translateX(0);
     }
 
     @starting-style {
       :host([placement="end"]) dialog[open],
       :host(:not([placement])) dialog[open] {
+        opacity: 0;
         transform: translateX(100%);
       }
     }
 
     /* Placement: start */
     :host([placement="start"]) dialog {
+      inset-inline-end: auto; /* clear UA's right:0 */
       inset-inline-start: 0;
       inset-block: 0;
       width: min(90vw, 28rem);
       height: 100dvh;
       border-radius: 0 var(--sm-border-radius-large) var(--sm-border-radius-large) 0;
+      opacity: 0;
       transform: translateX(-100%);
+    }
+
+    :host([placement="start"]) dialog[open] {
+      display: flex;
+      opacity: 1;
+      transform: translateX(0);
     }
 
     @starting-style {
       :host([placement="start"]) dialog[open] {
+        opacity: 0;
         transform: translateX(-100%);
       }
     }
@@ -107,11 +120,19 @@ export class SmDrawer extends LitElement {
       height: auto;
       max-height: min(90vh, 40rem);
       border-radius: 0 0 var(--sm-border-radius-large) var(--sm-border-radius-large);
+      opacity: 0;
       transform: translateY(-100%);
+    }
+
+    :host([placement="top"]) dialog[open] {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0);
     }
 
     @starting-style {
       :host([placement="top"]) dialog[open] {
+        opacity: 0;
         transform: translateY(-100%);
       }
     }
@@ -124,11 +145,19 @@ export class SmDrawer extends LitElement {
       height: auto;
       max-height: min(90vh, 40rem);
       border-radius: var(--sm-border-radius-large) var(--sm-border-radius-large) 0 0;
+      opacity: 0;
       transform: translateY(100%);
+    }
+
+    :host([placement="bottom"]) dialog[open] {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0);
     }
 
     @starting-style {
       :host([placement="bottom"]) dialog[open] {
+        opacity: 0;
         transform: translateY(100%);
       }
     }

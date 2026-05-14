@@ -15,7 +15,7 @@ export class SmDialog extends LitElement {
     }
 
     dialog {
-      display: flex;
+      display: none;
       flex-direction: column;
       max-width: min(90vw, 35rem);
       max-height: min(90vh, 60rem);
@@ -28,8 +28,6 @@ export class SmDialog extends LitElement {
       color: var(--sm-input-color);
       font-family: var(--sm-input-font-family);
       z-index: var(--sm-z-index-dialog);
-      opacity: 0;
-      transform: translateY(-0.5rem);
       transition:
         opacity var(--sm-transition-medium),
         transform var(--sm-transition-medium),
@@ -38,12 +36,14 @@ export class SmDialog extends LitElement {
     }
 
     dialog[open] {
+      display: flex;
       opacity: 1;
       transform: translateY(0);
     }
 
     @starting-style {
       dialog[open] {
+        display: flex;
         opacity: 0;
         transform: translateY(-0.5rem);
       }

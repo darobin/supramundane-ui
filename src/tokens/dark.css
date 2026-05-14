@@ -237,18 +237,31 @@
   --sm-color-rose-900: hsl(354.5 100% 90.7%);
   --sm-color-rose-950: hsl(353.3 100% 95.7%);
 
-  /* Primary */
-  --sm-color-primary-50: var(--sm-color-sky-50);
-  --sm-color-primary-100: var(--sm-color-sky-100);
-  --sm-color-primary-200: var(--sm-color-sky-200);
-  --sm-color-primary-300: var(--sm-color-sky-300);
-  --sm-color-primary-400: var(--sm-color-sky-400);
-  --sm-color-primary-500: var(--sm-color-sky-500);
-  --sm-color-primary-600: var(--sm-color-sky-600);
-  --sm-color-primary-700: var(--sm-color-sky-700);
-  --sm-color-primary-800: var(--sm-color-sky-800);
-  --sm-color-primary-900: var(--sm-color-sky-900);
-  --sm-color-primary-950: var(--sm-color-sky-950);
+  /* Accent → sky (same semantic, dark palette variant applies automatically) */
+  --sm-color-accent-50: var(--sm-color-sky-50);
+  --sm-color-accent-100: var(--sm-color-sky-100);
+  --sm-color-accent-200: var(--sm-color-sky-200);
+  --sm-color-accent-300: var(--sm-color-sky-300);
+  --sm-color-accent-400: var(--sm-color-sky-400);
+  --sm-color-accent-500: var(--sm-color-sky-500);
+  --sm-color-accent-600: var(--sm-color-sky-600);
+  --sm-color-accent-700: var(--sm-color-sky-700);
+  --sm-color-accent-800: var(--sm-color-sky-800);
+  --sm-color-accent-900: var(--sm-color-sky-900);
+  --sm-color-accent-950: var(--sm-color-sky-950);
+
+  /* Primary → gray/zinc inverted for dark mode (near-white) */
+  --sm-color-primary-50: var(--sm-color-gray-50);
+  --sm-color-primary-100: var(--sm-color-gray-100);
+  --sm-color-primary-200: var(--sm-color-gray-200);
+  --sm-color-primary-300: var(--sm-color-gray-300);
+  --sm-color-primary-400: var(--sm-color-gray-400);
+  --sm-color-primary-500: var(--sm-color-gray-500);
+  --sm-color-primary-600: var(--sm-color-gray-600);
+  --sm-color-primary-700: var(--sm-color-gray-700);
+  --sm-color-primary-800: var(--sm-color-gray-800);
+  --sm-color-primary-900: var(--sm-color-gray-900);
+  --sm-color-primary-950: var(--sm-color-gray-950);
 
   /* Success */
   --sm-color-success-50: var(--sm-color-green-50);
@@ -304,43 +317,43 @@
   --sm-color-neutral-0: hsl(240, 5.9%, 11%);
   --sm-color-neutral-1000: hsl(0, 0%, 100%);
 
-  /* Elevations */
-  --sm-shadow-x-small: 0 1px 2px rgb(0 0 0 / 18%);
-  --sm-shadow-small: 0 1px 2px rgb(0 0 0 / 24%);
-  --sm-shadow-medium: 0 2px 4px rgb(0 0 0 / 24%);
-  --sm-shadow-large: 0 2px 8px rgb(0 0 0 / 24%);
-  --sm-shadow-x-large: 0 4px 16px rgb(0 0 0 / 24%);
+  /* Elevations — stronger in dark mode */
+  --sm-shadow-x-small: 0 1px 2px rgb(0 0 0 / 30%);
+  --sm-shadow-small: 0 1px 3px rgb(0 0 0 / 40%), 0 1px 2px rgb(0 0 0 / 30%);
+  --sm-shadow-medium: 0 4px 6px rgb(0 0 0 / 40%), 0 2px 4px rgb(0 0 0 / 30%);
+  --sm-shadow-large: 0 10px 15px rgb(0 0 0 / 40%), 0 4px 6px rgb(0 0 0 / 30%);
+  --sm-shadow-x-large: 0 20px 25px rgb(0 0 0 / 40%), 0 8px 10px rgb(0 0 0 / 30%);
 
-  /* Focus rings */
-  --sm-focus-ring-color: var(--sm-color-primary-700);
+  /* Focus rings — accent gives vivid visibility against dark backgrounds */
+  --sm-focus-ring-color: var(--sm-color-accent-400);
 
   /* Inputs */
   --sm-input-background-color: var(--sm-color-neutral-0);
-  --sm-input-border-color: var(--sm-color-neutral-400);
-  --sm-input-border-color-hover: var(--sm-color-neutral-500);
-  --sm-input-border-color-focus: var(--sm-color-primary-600);
-  --sm-input-border-color-disabled: var(--sm-color-neutral-400);
-  --sm-input-color: var(--sm-color-neutral-700);
-  --sm-input-color-hover: var(--sm-color-neutral-700);
-  --sm-input-color-focus: var(--sm-color-neutral-700);
-  --sm-input-color-disabled: var(--sm-color-neutral-900);
+  --sm-input-border-color: var(--sm-color-neutral-300);
+  --sm-input-border-color-hover: var(--sm-color-neutral-400);
+  --sm-input-border-color-focus: var(--sm-color-accent-400);
+  --sm-input-border-color-disabled: var(--sm-color-neutral-300);
+  --sm-input-color: var(--sm-color-neutral-900);
+  --sm-input-color-hover: var(--sm-color-neutral-900);
+  --sm-input-color-focus: var(--sm-color-neutral-900);
+  --sm-input-color-disabled: var(--sm-color-neutral-500);
   --sm-input-icon-color: var(--sm-color-neutral-500);
   --sm-input-icon-color-hover: var(--sm-color-neutral-600);
   --sm-input-icon-color-focus: var(--sm-color-neutral-600);
   --sm-input-placeholder-color: var(--sm-color-neutral-500);
-  --sm-input-placeholder-color-disabled: var(--sm-color-neutral-600);
+  --sm-input-placeholder-color-disabled: var(--sm-color-neutral-500);
 
   /* Help text */
-  --sm-input-help-text-color: var(--sm-color-neutral-600);
+  --sm-input-help-text-color: var(--sm-color-neutral-500);
 
   /* Overlays */
-  --sm-overlay-background-color: hsl(0 0% 0% / 43%);
+  --sm-overlay-background-color: hsl(0 0% 0% / 60%);
 
-  /* Panels */
-  --sm-panel-background-color: var(--sm-color-neutral-50);
+  /* Panels — dark card background, subtle border */
+  --sm-panel-background-color: var(--sm-color-neutral-100);
   --sm-panel-border-color: var(--sm-color-neutral-200);
 
   /* Tooltips */
   --sm-tooltip-background-color: var(--sm-color-neutral-800);
-  --sm-tooltip-color: var(--sm-color-neutral-0);
+  --sm-tooltip-color: var(--sm-color-neutral-50);
 }

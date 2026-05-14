@@ -238,18 +238,31 @@
   --sm-color-rose-900: hsl(341.5 75.5% 30.4%);
   --sm-color-rose-950: hsl(341.3 70.1% 17.1%);
 
-  /* Primary */
-  --sm-color-primary-50: var(--sm-color-sky-50);
-  --sm-color-primary-100: var(--sm-color-sky-100);
-  --sm-color-primary-200: var(--sm-color-sky-200);
-  --sm-color-primary-300: var(--sm-color-sky-300);
-  --sm-color-primary-400: var(--sm-color-sky-400);
-  --sm-color-primary-500: var(--sm-color-sky-500);
-  --sm-color-primary-600: var(--sm-color-sky-600);
-  --sm-color-primary-700: var(--sm-color-sky-700);
-  --sm-color-primary-800: var(--sm-color-sky-800);
-  --sm-color-primary-900: var(--sm-color-sky-900);
-  --sm-color-primary-950: var(--sm-color-sky-950);
+  /* Accent → sky (vivid blue for interactive highlights, focus, selections) */
+  --sm-color-accent-50: var(--sm-color-sky-50);
+  --sm-color-accent-100: var(--sm-color-sky-100);
+  --sm-color-accent-200: var(--sm-color-sky-200);
+  --sm-color-accent-300: var(--sm-color-sky-300);
+  --sm-color-accent-400: var(--sm-color-sky-400);
+  --sm-color-accent-500: var(--sm-color-sky-500);
+  --sm-color-accent-600: var(--sm-color-sky-600);
+  --sm-color-accent-700: var(--sm-color-sky-700);
+  --sm-color-accent-800: var(--sm-color-sky-800);
+  --sm-color-accent-900: var(--sm-color-sky-900);
+  --sm-color-accent-950: var(--sm-color-sky-950);
+
+  /* Primary → gray/zinc (near-black), matching shadcn's default */
+  --sm-color-primary-50: var(--sm-color-gray-50);
+  --sm-color-primary-100: var(--sm-color-gray-100);
+  --sm-color-primary-200: var(--sm-color-gray-200);
+  --sm-color-primary-300: var(--sm-color-gray-300);
+  --sm-color-primary-400: var(--sm-color-gray-400);
+  --sm-color-primary-500: var(--sm-color-gray-500);
+  --sm-color-primary-600: var(--sm-color-gray-600);
+  --sm-color-primary-700: var(--sm-color-gray-700);
+  --sm-color-primary-800: var(--sm-color-gray-800);
+  --sm-color-primary-900: var(--sm-color-gray-900);
+  --sm-color-primary-950: var(--sm-color-gray-950);
 
   /* Success */
   --sm-color-success-50: var(--sm-color-green-50);
@@ -305,47 +318,47 @@
   --sm-color-neutral-0: hsl(0, 0%, 100%);
   --sm-color-neutral-1000: hsl(0, 0%, 0%);
 
-  /* Elevations */
-  --sm-shadow-x-small: 0 1px 2px hsl(240 3.8% 46.1% / 6%);
-  --sm-shadow-small: 0 1px 2px hsl(240 3.8% 46.1% / 12%);
-  --sm-shadow-medium: 0 2px 4px hsl(240 3.8% 46.1% / 12%);
-  --sm-shadow-large: 0 2px 8px hsl(240 3.8% 46.1% / 12%);
-  --sm-shadow-x-large: 0 4px 16px hsl(240 3.8% 46.1% / 12%);
+  /* Elevations — very subtle, matching shadcn's shadow-sm aesthetic */
+  --sm-shadow-x-small: 0 1px 2px rgb(0 0 0 / 4%);
+  --sm-shadow-small: 0 1px 3px rgb(0 0 0 / 6%), 0 1px 2px rgb(0 0 0 / 4%);
+  --sm-shadow-medium: 0 4px 6px rgb(0 0 0 / 5%), 0 2px 4px rgb(0 0 0 / 4%);
+  --sm-shadow-large: 0 10px 15px rgb(0 0 0 / 6%), 0 4px 6px rgb(0 0 0 / 4%);
+  --sm-shadow-x-large: 0 20px 25px rgb(0 0 0 / 6%), 0 8px 10px rgb(0 0 0 / 4%);
 
-  /* Focus rings */
-  --sm-focus-ring-color: var(--sm-color-primary-600);
+  /* Focus rings — accent color makes the ring visually distinct */
+  --sm-focus-ring-color: var(--sm-color-accent-500);
 
   /* Inputs */
   --sm-input-background-color: var(--sm-color-neutral-0);
   --sm-input-background-color-hover: var(--sm-input-background-color);
   --sm-input-background-color-focus: var(--sm-input-background-color);
-  --sm-input-background-color-disabled: var(--sm-color-neutral-100);
-  --sm-input-border-color: var(--sm-color-neutral-300);
-  --sm-input-border-color-hover: var(--sm-color-neutral-400);
-  --sm-input-border-color-focus: var(--sm-color-primary-500);
-  --sm-input-border-color-disabled: var(--sm-color-neutral-300);
+  --sm-input-background-color-disabled: var(--sm-color-neutral-50);
+  --sm-input-border-color: var(--sm-color-neutral-200);
+  --sm-input-border-color-hover: var(--sm-color-neutral-300);
+  --sm-input-border-color-focus: var(--sm-color-accent-500);
+  --sm-input-border-color-disabled: var(--sm-color-neutral-200);
   --sm-input-required-content-color: var(--sm-input-label-color);
 
-  --sm-input-color: var(--sm-color-neutral-700);
-  --sm-input-color-hover: var(--sm-color-neutral-700);
-  --sm-input-color-focus: var(--sm-color-neutral-700);
-  --sm-input-color-disabled: var(--sm-color-neutral-900);
-  --sm-input-icon-color: var(--sm-color-neutral-500);
+  --sm-input-color: var(--sm-color-neutral-900);
+  --sm-input-color-hover: var(--sm-color-neutral-900);
+  --sm-input-color-focus: var(--sm-color-neutral-900);
+  --sm-input-color-disabled: var(--sm-color-neutral-500);
+  --sm-input-icon-color: var(--sm-color-neutral-400);
   --sm-input-icon-color-hover: var(--sm-color-neutral-600);
   --sm-input-icon-color-focus: var(--sm-color-neutral-600);
-  --sm-input-placeholder-color: var(--sm-color-neutral-500);
-  --sm-input-placeholder-color-disabled: var(--sm-color-neutral-600);
+  --sm-input-placeholder-color: var(--sm-color-neutral-400);
+  --sm-input-placeholder-color-disabled: var(--sm-color-neutral-400);
 
-  --sm-input-focus-ring-color: hsl(198.6 88.7% 48.4% / 40%);
+  --sm-input-focus-ring-color: hsl(198.6 88.7% 48.4% / 25%);
 
   --sm-input-filled-background-color: var(--sm-color-neutral-100);
   --sm-input-filled-background-color-hover: var(--sm-color-neutral-100);
   --sm-input-filled-background-color-focus: var(--sm-color-neutral-100);
-  --sm-input-filled-background-color-disabled: var(--sm-color-neutral-100);
-  --sm-input-filled-color: var(--sm-color-neutral-800);
-  --sm-input-filled-color-hover: var(--sm-color-neutral-800);
-  --sm-input-filled-color-focus: var(--sm-color-neutral-700);
-  --sm-input-filled-color-disabled: var(--sm-color-neutral-800);
+  --sm-input-filled-background-color-disabled: var(--sm-color-neutral-50);
+  --sm-input-filled-color: var(--sm-color-neutral-900);
+  --sm-input-filled-color-hover: var(--sm-color-neutral-900);
+  --sm-input-filled-color-focus: var(--sm-color-neutral-900);
+  --sm-input-filled-color-disabled: var(--sm-color-neutral-500);
 
   /* Labels */
   --sm-input-label-color: inherit;
@@ -354,13 +367,13 @@
   --sm-input-help-text-color: var(--sm-color-neutral-500);
 
   /* Overlays */
-  --sm-overlay-background-color: hsl(240 3.8% 46.1% / 33%);
+  --sm-overlay-background-color: hsl(0 0% 0% / 50%);
 
-  /* Panels */
+  /* Panels — card background white, border very light */
   --sm-panel-background-color: var(--sm-color-neutral-0);
   --sm-panel-border-color: var(--sm-color-neutral-200);
 
-  /* Tooltips */
-  --sm-tooltip-background-color: var(--sm-color-neutral-800);
-  --sm-tooltip-color: var(--sm-color-neutral-0);
+  /* Tooltips — near-black, matching shadcn popover */
+  --sm-tooltip-background-color: var(--sm-color-neutral-900);
+  --sm-tooltip-color: var(--sm-color-neutral-50);
 }

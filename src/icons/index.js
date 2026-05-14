@@ -126,3 +126,84 @@ export const iconGripVertical = ({ slot } = {}) => html`<svg slot=${slot} xmlns=
   <circle cx="9" cy="15" r="1.5"/><circle cx="15" cy="15" r="1.5"/>
   <circle cx="9" cy="20" r="1.5"/><circle cx="15" cy="20" r="1.5"/>
 </svg>`;
+
+export const iconBold = ({ slot } = {}) => html`<svg slot=${slot} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M6 12h9a4 4 0 0 1 0 8H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h7a4 4 0 0 1 0 8"/>
+</svg>`;
+
+export const iconItalic = ({ slot } = {}) => html`<svg slot=${slot} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <line x1="19" y1="4" x2="10" y2="4"/>
+  <line x1="14" y1="20" x2="5" y2="20"/>
+  <line x1="15" y1="4" x2="9" y2="20"/>
+</svg>`;
+
+export const iconUnderline = ({ slot } = {}) => html`<svg slot=${slot} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M6 4v6a6 6 0 0 0 12 0V4"/>
+  <line x1="4" y1="20" x2="20" y2="20"/>
+</svg>`;
+
+export const iconAlignLeft = ({ slot } = {}) => html`<svg slot=${slot} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <line x1="21" y1="6" x2="3" y2="6"/>
+  <line x1="15" y1="12" x2="3" y2="12"/>
+  <line x1="17" y1="18" x2="3" y2="18"/>
+</svg>`;
+
+export const iconAlignCenter = ({ slot } = {}) => html`<svg slot=${slot} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <line x1="21" y1="6" x2="3" y2="6"/>
+  <line x1="17" y1="12" x2="7" y2="12"/>
+  <line x1="19" y1="18" x2="5" y2="18"/>
+</svg>`;
+
+export const iconAlignRight = ({ slot } = {}) => html`<svg slot=${slot} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <line x1="21" y1="6" x2="3" y2="6"/>
+  <line x1="21" y1="12" x2="9" y2="12"/>
+  <line x1="21" y1="18" x2="7" y2="18"/>
+</svg>`;
+
+export const iconLink2 = ({ slot } = {}) => html`<svg slot=${slot} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M9 17H7A5 5 0 0 1 7 7h2"/>
+  <path d="M15 7h2a5 5 0 1 1 0 10h-2"/>
+  <line x1="8" y1="12" x2="16" y2="12"/>
+</svg>`;
+
+export const iconImageIcon = ({ slot } = {}) => html`<svg slot=${slot} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+  <circle cx="9" cy="9" r="2"/>
+  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+</svg>`;
+
+export const iconPencil = ({ slot } = {}) => html`<svg slot=${slot} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+  <path d="m15 5 4 4"/>
+</svg>`;
+
+export const iconTrash = ({ slot } = {}) => html`<svg slot=${slot} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M3 6h18"/>
+  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+</svg>`;
+
+export const iconHeart = ({ slot } = {}) => html`<svg slot=${slot} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+</svg>`;
+
+export const iconShield = ({ slot } = {}) => html`<svg slot=${slot} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+</svg>`;
+
+export const iconMoon = ({ slot } = {}) => html`<svg slot=${slot} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+</svg>`;
+
+export const iconSun = ({ slot } = {}) => html`<svg slot=${slot} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <circle cx="12" cy="12" r="4"/>
+  <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+</svg>`;
+
+export const iconPalette = ({ slot } = {}) => html`<svg slot=${slot} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <circle cx="13.5" cy="6.5" r="0.5" fill="currentColor"/>
+  <circle cx="17.5" cy="10.5" r="0.5" fill="currentColor"/>
+  <circle cx="8.5" cy="7.5" r="0.5" fill="currentColor"/>
+  <circle cx="6.5" cy="12.5" r="0.5" fill="currentColor"/>
+  <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+</svg>`;

@@ -70,8 +70,8 @@ export class SmRange extends LitElement {
       border-radius: var(--sm-border-radius-pill);
       background: var(--sm-color-neutral-200);
       background-image: linear-gradient(
-        var(--sm-color-primary-600),
-        var(--sm-color-primary-600)
+        var(--sm-color-accent-600),
+        var(--sm-color-accent-600)
       );
       background-size: 0% 100%;
       background-repeat: no-repeat;
@@ -93,7 +93,7 @@ export class SmRange extends LitElement {
       width: 1rem;
       height: 1rem;
       border-radius: var(--sm-border-radius-circle);
-      background-color: var(--sm-color-primary-600);
+      background-color: var(--sm-color-accent-600);
       border: none;
       cursor: pointer;
       transition:
@@ -107,7 +107,7 @@ export class SmRange extends LitElement {
     }
 
     .range__control::-webkit-slider-thumb:hover {
-      background-color: var(--sm-color-primary-500);
+      background-color: var(--sm-color-accent-500);
     }
 
     /* Thumb - moz */
@@ -115,7 +115,7 @@ export class SmRange extends LitElement {
       width: 1rem;
       height: 1rem;
       border-radius: var(--sm-border-radius-circle);
-      background-color: var(--sm-color-primary-600);
+      background-color: var(--sm-color-accent-600);
       border: none;
       cursor: pointer;
     }
@@ -135,7 +135,7 @@ export class SmRange extends LitElement {
     .range__control::-moz-range-progress {
       height: 4px;
       border-radius: var(--sm-border-radius-pill);
-      background: var(--sm-color-primary-600);
+      background: var(--sm-color-accent-600);
     }
 
     /* Tooltip */

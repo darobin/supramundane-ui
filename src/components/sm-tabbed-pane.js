@@ -63,13 +63,13 @@ export class SmTabbedPane extends LitElement {
     }
 
     .tab:hover:not(.tab--disabled) {
-      color: var(--sm-color-primary-700);
+      color: var(--sm-color-accent-700);
       background-color: var(--sm-color-neutral-100);
     }
 
     .tab--active {
-      color: var(--sm-color-primary-700);
-      border-bottom-color: var(--sm-color-primary-600);
+      color: var(--sm-color-accent-700);
+      border-bottom-color: var(--sm-color-accent-600);
     }
 
     .tab--disabled {
