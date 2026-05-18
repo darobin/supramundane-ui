@@ -13,22 +13,14 @@
     "test:watch": "wtr --watch"
   },
   "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "default": "./dist/index.js"
-    },
     "./tokens": "./src/tokens/index.css",
     "./tokens/base": "./src/tokens/base.css",
     "./tokens/light": "./src/tokens/light.css",
-    "./tokens/dark": "./src/tokens/dark.css"
+    "./tokens/dark": "./src/tokens/dark.css",
+    ".": "./src/index.js",
+    "./icons": "./src/icons/index.js"
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "files": [
-    "dist",
-    "src/tokens",
-    "src/components"
-  ],
+  "main": "./src/index.js",
   "peerDependencies": {
     "lit": "^3.0.0"
   },

@@ -33,7 +33,7 @@ export class SmIconButton extends LitElement {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border-style: solid;
+      border-style: none;
       border-width: var(--sm-input-border-width);
       border-radius: var(--sm-border-radius-circle);
       aspect-ratio: 1;
@@ -78,6 +78,7 @@ export class SmIconButton extends LitElement {
       width: 1em;
       height: 1em;
       pointer-events: none;
+      padding: 0.5em;
     }
 
     /* ---- Variants ---- */
