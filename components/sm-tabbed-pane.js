@@ -1,7 +1,7 @@
 
 import { LitElement, html, css, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
-import { iconX } from '../icons/index.js';
+import { iconX } from '../icons.js';
 
 export class SmTabbedPane extends LitElement {
   static properties = {
@@ -13,7 +13,8 @@ export class SmTabbedPane extends LitElement {
 
   static styles = css`
     :host {
-      display: block;
+      display: flex;
+      flex-direction: column;
     }
 
     .tabbed-pane__nav {
@@ -33,6 +34,7 @@ export class SmTabbedPane extends LitElement {
       border: 1px solid var(--sm-panel-border-color);
       border-top: none;
       border-radius: 0 0 var(--sm-border-radius-medium) var(--sm-border-radius-medium);
+      flex-grow: 1;
     }
 
     .tab {

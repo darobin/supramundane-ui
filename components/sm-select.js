@@ -1,7 +1,7 @@
 
 import { LitElement, html, css, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
-import { iconChevronDown, iconX } from '../icons/index.js';
+import { iconChevronDown, iconX } from '../icons.js';
 
 export class SmSelect extends LitElement {
   static formAssociated = true;

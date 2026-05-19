@@ -11,6 +11,7 @@ export class SmTabPanel extends LitElement {
   static styles = css`
     :host {
       display: block;
+      height: 100%;
     }
 
     /* Icon is consumed here only so it doesn't render in the panel body.
@@ -21,6 +22,7 @@ export class SmTabPanel extends LitElement {
 
     .panel {
       padding: var(--sm-spacing-medium);
+      height: 100%;
     }
 
     .panel[hidden] {

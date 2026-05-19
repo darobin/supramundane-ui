@@ -6,21 +6,18 @@
   "author": "Robin Berjon <robin@berjon.com>",
   "license": "Apache-2.0",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
     "test": "wtr",
     "test:watch": "wtr --watch"
   },
   "exports": {
-    "./tokens": "./src/tokens/index.css",
-    "./tokens/base": "./src/tokens/base.css",
-    "./tokens/light": "./src/tokens/light.css",
-    "./tokens/dark": "./src/tokens/dark.css",
-    ".": "./src/index.js",
-    "./icons": "./src/icons/index.js"
+    "./tokens": "./tokens/index.css",
+    "./tokens/base": "./tokens/base.css",
+    "./tokens/light": "./tokens/light.css",
+    "./tokens/dark": "./tokens/dark.css",
+    ".": "./index.js",
+    "./icons": "./icons.js"
   },
-  "main": "./src/index.js",
+  "main": "./index.js",
   "peerDependencies": {
     "lit": "^3.0.0"
   },
@@ -47,7 +44,6 @@
     "@web/test-runner": "^0.18.3",
     "@web/test-runner-playwright": "^0.11.1",
     "eslint": "^8.26.0",
-    "lit": "^3.3.2",
-    "vite": "^8.0.12"
+    "lit": "^3.3.2"
   }
 }

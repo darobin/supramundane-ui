@@ -1,6 +1,6 @@
 
 import { LitElement, html, css } from 'lit';
-import { iconSpinner } from '../icons/index.js';
+import { iconSpinner } from '../icons.js';
 
 export class SmInfiniteScroll extends LitElement {
   static properties = {

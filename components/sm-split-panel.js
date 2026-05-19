@@ -1,6 +1,6 @@
 
 import { LitElement, html, css } from 'lit';
-import { iconGripVertical } from '../icons/index.js';
+import { iconGripVertical } from '../icons.js';
 
 export class SmSplitPanel extends LitElement {
   static properties = {

@@ -1,6 +1,6 @@
 
 import { LitElement, html, css, nothing } from 'lit';
-import { iconX } from '../icons/index.js';
+import { iconX } from '../icons.js';
 
 export class SmDialog extends LitElement {
   static properties = {

@@ -1,6 +1,6 @@
 
 import { LitElement, html, css } from 'lit';
-import { iconUser } from '../icons/index.js';
+import { iconUser } from '../icons.js';
 
 export class SmAvatar extends LitElement {
   static properties = {

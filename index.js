@@ -36,4 +36,4 @@ export { SmToolbar } from './components/sm-toolbar.js';
 export { SmTooltip } from './components/sm-tooltip.js';
 export { SmTree } from './components/sm-tree.js';
 export { SmTreeItem } from './components/sm-tree-item.js';
-export * from './icons/index.js';
+export * from './icons.js';

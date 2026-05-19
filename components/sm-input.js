@@ -2,7 +2,7 @@
 import { LitElement, html, css } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { iconX, iconEye, iconEyeSlash } from '../icons/index.js';
+import { iconX, iconEye, iconEyeSlash } from '../icons.js';
 
 export class SmInput extends LitElement {
   static formAssociated = true;

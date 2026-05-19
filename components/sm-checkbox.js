@@ -1,7 +1,6 @@
 
 import { LitElement, html, css } from 'lit';
-import { classMap } from 'lit/directives/class-map.js';
-import { iconCheck, iconMinus } from '../icons/index.js';
+import { iconCheck, iconMinus } from '../icons.js';
 
 export class SmCheckbox extends LitElement {
   static formAssociated = true;

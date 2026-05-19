@@ -1,6 +1,6 @@
 
-import { LitElement, html, css, nothing } from 'lit';
-import { iconX } from '../icons/index.js';
+import { LitElement, html, css } from 'lit';
+import { iconX } from '../icons.js';
 
 export class SmDrawer extends LitElement {
   static properties = {

@@ -1,6 +1,6 @@
 
 import { LitElement, html, css } from 'lit';
-import { iconCheck } from '../icons/index.js';
+import { iconCheck } from '../icons.js';
 
 export class SmMenuItem extends LitElement {
   static properties = {

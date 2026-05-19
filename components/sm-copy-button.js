@@ -1,6 +1,6 @@
 
 import { LitElement, html, css } from 'lit';
-import { iconCopy } from '../icons/index.js';
+import { iconCopy } from '../icons.js';
 
 export class SmCopyButton extends LitElement {
   static properties = {

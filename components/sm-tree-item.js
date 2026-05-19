@@ -1,6 +1,6 @@
 
 import { LitElement, html, css, nothing } from 'lit';
-import { iconChevronRight, iconSpinner } from '../icons/index.js';
+import { iconChevronRight, iconSpinner } from '../icons.js';
 
 export class SmTreeItem extends LitElement {
   static properties = {
@@ -189,7 +189,7 @@ export class SmTreeItem extends LitElement {
     }
   }
 
-  #handleItemClick(e) {
+  #handleItemClick () {
     if (this.disabled) return;
     // Only fire selection if not clicking the expand toggle
     this.dispatchEvent(new CustomEvent('sm-tree-select', {

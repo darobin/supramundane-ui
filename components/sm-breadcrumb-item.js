@@ -1,7 +1,7 @@
 
 import { LitElement, html, css } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { iconChevronRight } from '../icons/index.js';
+import { iconChevronRight } from '../icons.js';
 
 export class SmBreadcrumbItem extends LitElement {
   static properties = {

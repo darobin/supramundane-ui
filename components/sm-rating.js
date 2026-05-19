@@ -1,6 +1,6 @@
 
 import { LitElement, html, css } from 'lit';
-import { iconStar, iconStarFilled } from '../icons/index.js';
+import { iconStar, iconStarFilled } from '../icons.js';
 
 export class SmRating extends LitElement {
   static properties = {

@@ -1,7 +1,7 @@
 
 import { LitElement, html, css } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
-import { iconX } from '../icons/index.js';
+import { iconX } from '../icons.js';
 
 export class SmTag extends LitElement {
   static properties = {
