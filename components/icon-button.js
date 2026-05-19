@@ -1,10 +1,13 @@
 
-import { LitElement, html, css } from 'lit';
+import { css } from 'lit';
+import { html, literal } from 'lit/static-html.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { SupramundaneElement } from '../core.js';
 import { iconSpinner } from '../icons.js';
+import './icon.js';
 
-export class SmIconButton extends LitElement {
+export class IconButton extends SupramundaneElement {
   static properties = {
     label: { type: String },
     variant: { type: String, reflect: true },
@@ -14,6 +17,7 @@ export class SmIconButton extends LitElement {
     href: { type: String },
     target: { type: String },
     download: { type: String },
+    hasFocus: { state: true },
   };
 
   static styles = css`
@@ -37,8 +41,9 @@ export class SmIconButton extends LitElement {
       border-width: var(--sm-input-border-width);
       border-radius: var(--sm-border-radius-circle);
       aspect-ratio: 1;
-      padding: 0;
+      padding: 0.5em;
       font-family: var(--sm-input-font-family);
+      font-size: inherit;
       text-decoration: none;
       user-select: none;
       vertical-align: middle;
@@ -51,37 +56,27 @@ export class SmIconButton extends LitElement {
       -webkit-appearance: none;
     }
 
-    .button:focus-visible {
+    .button:focus-visible:hover:not(.button--disabled) {
       outline: var(--sm-focus-ring);
       outline-offset: var(--sm-focus-ring-offset);
     }
-
-    /* ---- Sizes ---- */
 
     .button--small {
       width: var(--sm-input-height-small);
       font-size: var(--sm-button-font-size-small);
     }
-
     .button--medium {
       width: var(--sm-input-height-medium);
       font-size: var(--sm-button-font-size-medium);
     }
-
     .button--large {
       width: var(--sm-input-height-large);
       font-size: var(--sm-button-font-size-large);
     }
 
-    ::slotted(svg),
-    .button__spinner svg {
-      width: 1em;
-      height: 1em;
+    .button__spinner {
       pointer-events: none;
-      padding: 0.5em;
     }
-
-    /* ---- Variants ---- */
 
     .button--default {
       background-color: var(--sm-color-neutral-0);
@@ -179,36 +174,15 @@ export class SmIconButton extends LitElement {
       color: #fff;
     }
 
-    .button--text {
-      background-color: transparent;
-      border-color: transparent;
-      color: var(--sm-color-accent-600);
-    }
-    .button--text:hover:not(.button--disabled) {
-      background-color: transparent;
-      border-color: transparent;
-      color: var(--sm-color-accent-500);
-    }
-    .button--text:active:not(.button--disabled) {
-      background-color: transparent;
-      border-color: transparent;
-      color: var(--sm-color-accent-700);
-    }
-
-    /* ---- Disabled state ---- */
-
     .button--disabled {
       opacity: 0.5;
       cursor: not-allowed;
       pointer-events: none;
     }
 
-    /* ---- Loading state ---- */
-
     .button--loading {
       cursor: wait;
     }
-
     .button--loading ::slotted(*) {
       visibility: hidden;
     }
@@ -236,61 +210,66 @@ export class SmIconButton extends LitElement {
     this.loading = false;
   }
 
-  #handleClick(e) {
+  get button () {
+    return this.querySelector('.button');
+  }
+  #handleBlur () {
+    this.hasFocus = false;
+    this.emit('sm-blur');
+  }
+  #handleFocus () {
+    this.hasFocus = true;
+    this.emit('sm-focus');
+  }
+  #handleClick (e) {
     if (this.disabled || this.loading) {
       e.preventDefault();
       e.stopImmediatePropagation();
     }
   }
-
-  #renderInner() {
-    return html`
-      <slot></slot>
-      ${this.loading ? html`<span class="button__spinner" aria-hidden="true">${iconSpinner()}</span>` : ''}
-    `;
+  click () {
+    this.button.click();
+  }
+  focus (options) {
+    this.button.focus(options);
+  }
+  blur () {
+    this.button.blur();
   }
 
-  render() {
+  render () {
     const isLink = !!this.href;
     const isDisabled = this.disabled || this.loading;
+    const tag = isLink ? literal`a` : literal`button`;
 
-    const classes = {
-      button: true,
-      [`button--${this.variant}`]: true,
-      [`button--${this.size}`]: true,
-      'button--disabled': isDisabled,
-      'button--loading': this.loading,
-    };
-
-    return isLink
-      ? html`
-          <a
-            part="base"
-            class=${classMap(classes)}
-            href=${ifDefined(this.disabled ? undefined : this.href)}
-            target=${ifDefined(this.target)}
-            download=${ifDefined(this.download)}
-            aria-label=${ifDefined(this.label)}
-            aria-disabled=${isDisabled ? 'true' : 'false'}
-            tabindex=${this.disabled ? '-1' : '0'}
-            @click=${this.#handleClick}
-          >
-            ${this.#renderInner()}
-          </a>
-        `
-      : html`
-          <button
-            part="base"
-            class=${classMap(classes)}
-            aria-label=${ifDefined(this.label)}
-            ?disabled=${isDisabled}
-            aria-disabled=${isDisabled ? 'true' : 'false'}
-            @click=${this.#handleClick}
-          >
-            ${this.#renderInner()}
-          </button>
-        `;
+    return html`
+        <${tag}
+          part="base"
+          class=${classMap({
+            button: true,
+            [`button--${this.variant}`]: true,
+            [`button--${this.size}`]: true,
+            'button--disabled': isDisabled,
+            'button--loading': this.loading,
+          })}
+          type=${ifDefined(isLink ? undefined : 'button')}
+          href=${ifDefined(isLink ? this.href : undefined)}
+          target=${ifDefined(isLink ? this.target : undefined)}
+          download=${ifDefined(isLink ? this.download : undefined)}
+          rel=${ifDefined(isLink && this.target ? 'noreferrer noopener' : undefined)}
+          role=${ifDefined(isLink ? undefined : 'button')}
+          aria-label=${ifDefined(this.label)}
+          ?disabled=${ifDefined(isLink ? undefined : this.disabled)}
+          aria-disabled=${isDisabled ? 'true' : 'false'}
+          tabindex=${this.disabled ? '-1' : '0'}
+          @click=${this.#handleClick}
+          @blur=${this.#handleBlur}
+          @focus=${this.#handleFocus}
+        >
+          ${this.loading ? iconSpinner() : html`<slot></slot>`}
+        </${tag}>
+      `;
   }
 }
 
-customElements.define('sm-icon-button', SmIconButton);
+customElements.define('sm-icon-button', IconButton);

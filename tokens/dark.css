@@ -1,4 +1,6 @@
 
+@import './base.css';
+
 :host,
 .sm-theme-dark {
   color-scheme: dark;
