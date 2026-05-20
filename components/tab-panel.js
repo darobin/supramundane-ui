@@ -1,7 +1,7 @@
 
 import { LitElement, html, css } from 'lit';
 
-export class SmTabPanel extends LitElement {
+export class TabPanel extends LitElement {
   static properties = {
     label: { type: String, reflect: true },
     active: { type: Boolean, reflect: true },
@@ -52,4 +52,4 @@ export class SmTabPanel extends LitElement {
   }
 }
 
-customElements.define('sm-tab-panel', SmTabPanel);
+customElements.define('sm-tab-panel', TabPanel);

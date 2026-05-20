@@ -17,6 +17,8 @@
     ".": "./index.js",
     "./icon": "./components/icon.js",
     "./icon-button": "./components/icon-button.js",
+    "./tab-panel": "./components/tab-panel.js",
+    "./tabbed-pane": "./components/tabbed-pane.js",
     "./icons": "./icons.js"
   },
   "main": "./index.js",

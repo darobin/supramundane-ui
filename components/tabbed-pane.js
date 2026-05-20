@@ -2,8 +2,9 @@
 import { LitElement, html, css, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { iconX } from '../icons.js';
+import './icon.js';
 
-export class SmTabbedPane extends LitElement {
+export class TabbedPane extends LitElement {
   static properties = {
     closable: { type: Boolean, reflect: true },
     _panels: { state: true },
@@ -212,7 +213,7 @@ export class SmTabbedPane extends LitElement {
         tabindex=${panel.active ? '0' : '-1'}
         @click=${() => !panel.disabled && this.#selectPanel(panel)}
       >
-        ${icon ? icon.cloneNode(true) : nothing}
+        ${icon ? html`<sm-icon>${icon.cloneNode(true)}</sm-icon>` : nothing}
         <span class="tab__label">${panel.label}</span>
         ${this.closable ? html`
           <span
@@ -247,4 +248,4 @@ export class SmTabbedPane extends LitElement {
   }
 }
 
-customElements.define('sm-tabbed-pane', SmTabbedPane);
+customElements.define('sm-tabbed-pane', TabbedPane);
