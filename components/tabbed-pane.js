@@ -108,20 +108,21 @@ export class TabbedPane extends LitElement {
     });
   }
 
-  disconnectedCallback() {
+  disconnectedCallback () {
     super.disconnectedCallback();
     this.#observer?.disconnect();
     this.#observer = null;
   }
 
-  firstUpdated() {
+  firstUpdated () {
     this._panels = [...this.querySelectorAll(':scope > sm-tab-panel')];
     const first = this._panels.find(p => !p.disabled);
     if (first) this.#selectPanel(first);
   }
 
-  #selectPanel(target) {
-    this._panels.forEach(p => { p.active = p === target; });
+  #selectPanel (target) {
+    this._panels.forEach(p => { p.active = p === target; p.hidden = !p.active });
+    console.warn(`#selectPanel`, this._panels);
     this.updateComplete.then(() => {
       this.shadowRoot?.querySelector('.tab--active')?.focus();
     });

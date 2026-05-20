@@ -9,7 +9,7 @@ export class TabPanel extends LitElement {
   };
 
   static styles = css`
-    :host {
+    :host:not([hidden]) {
       display: block;
       height: 100%;
     }
