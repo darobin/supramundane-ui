@@ -199,6 +199,7 @@ export class TabbedPane extends LitElement {
 
   #renderTab(panel) {
     const icon = panel.querySelector('[slot="icon"]');
+    icon?.removeAttribute('slot');
     return html`
       <button
         part="tab"
