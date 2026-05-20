@@ -13,30 +13,26 @@ export class TabPanel extends LitElement {
       display: block;
       height: 100%;
     }
-
     /* Icon is consumed here only so it doesn't render in the panel body.
        sm-tabbed-pane clones it from the light DOM for the tab button. */
     slot[name="icon"] {
       display: none;
     }
-
     .panel {
       padding: var(--sm-spacing-medium);
       height: 100%;
     }
-
     .panel[hidden] {
       display: none;
     }
   `;
 
-  constructor() {
+  constructor () {
     super();
     this.active = false;
     this.disabled = false;
   }
-
-  render() {
+  render () {
     return html`
       <slot name="icon"></slot>
       <div

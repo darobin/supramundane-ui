@@ -62,8 +62,10 @@ export class IconButton extends SupramundaneElement {
     }
 
     .button--small {
-      width: var(--sm-input-height-small);
+      width: 1.5em;
+      height: 1.5em;
       font-size: var(--sm-button-font-size-small);
+      /*padding: 0.2em;*/
     }
     .button--medium {
       width: var(--sm-input-height-medium);

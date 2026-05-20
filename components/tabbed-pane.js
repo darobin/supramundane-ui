@@ -3,6 +3,7 @@ import { LitElement, html, css, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { iconX } from '../icons.js';
 import './icon.js';
+import './icon-button.js';
 
 export class TabbedPane extends LitElement {
   static properties = {
@@ -34,18 +35,18 @@ export class TabbedPane extends LitElement {
       background: var(--sm-panel-background-color);
       border: 1px solid var(--sm-panel-border-color);
       border-top: none;
-      border-radius: 0 0 var(--sm-border-radius-medium) var(--sm-border-radius-medium);
+      border-radius: 0;
       flex-grow: 1;
     }
 
     .tab {
-      display: inline-flex;
+      display: flex;
       align-items: center;
       gap: var(--sm-spacing-2x-small);
-      padding: var(--sm-spacing-x-small) var(--sm-spacing-medium);
+      padding: var(--sm-spacing-x-small) var(--sm-spacing-x-small);
       border: none;
       border-bottom: 2px solid transparent;
-      border-radius: var(--sm-border-radius-medium) var(--sm-border-radius-medium) 0 0;
+      border-radius: var(--sm-border-radius-small) var(--sm-border-radius-small) 0 0;
       background: transparent;
       color: var(--sm-color-neutral-600);
       font-family: var(--sm-input-font-family);
@@ -85,35 +86,6 @@ export class TabbedPane extends LitElement {
       width: 1em;
       height: 1em;
       flex-shrink: 0;
-    }
-
-    .tab__close {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 1.25em;
-      height: 1.25em;
-      margin-inline-start: var(--sm-spacing-3x-small);
-      border-radius: var(--sm-border-radius-small);
-      opacity: 0.6;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-
-    .tab__close:hover {
-      opacity: 1;
-      background: var(--sm-color-neutral-200);
-    }
-
-    .tab__close:focus-visible {
-      outline: var(--sm-focus-ring);
-      outline-offset: 0;
-      opacity: 1;
-    }
-
-    .tab__close svg {
-      width: 0.875em;
-      height: 0.875em;
     }
   `;
 
@@ -177,28 +149,8 @@ export class TabbedPane extends LitElement {
     }
   }
 
-  #handleKeyDown(e) {
-    const enabled = this._panels.filter(p => !p.disabled);
-    const active = this._panels.find(p => p.active);
-    const idx = enabled.indexOf(active);
-
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-      e.preventDefault();
-      this.#selectPanel(enabled[(idx + 1) % enabled.length]);
-    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      this.#selectPanel(enabled[(idx - 1 + enabled.length) % enabled.length]);
-    } else if (e.key === 'Home') {
-      e.preventDefault();
-      if (enabled[0]) this.#selectPanel(enabled[0]);
-    } else if (e.key === 'End') {
-      e.preventDefault();
-      if (enabled.at(-1)) this.#selectPanel(enabled.at(-1));
-    }
-  }
-
-  #renderTab(panel) {
-    const icon = panel.querySelector('[slot="icon"]');
+  #renderTab (panel) {
+    const icon = panel.querySelector('[slot="icon"]')?.cloneNode(true);
     icon?.removeAttribute('slot');
     return html`
       <button
@@ -214,32 +166,16 @@ export class TabbedPane extends LitElement {
         tabindex=${panel.active ? '0' : '-1'}
         @click=${() => !panel.disabled && this.#selectPanel(panel)}
       >
-        ${icon ? html`<sm-icon>${icon.cloneNode(true)}</sm-icon>` : nothing}
+        ${icon ? html`<sm-icon>${icon}</sm-icon>` : nothing}
         <span class="tab__label">${panel.label}</span>
-        ${this.closable ? html`
-          <span
-            part="close"
-            class="tab__close"
-            role="button"
-            tabindex="0"
-            aria-label="Close ${panel.label}"
-            @click=${(e) => { e.stopPropagation(); this.#closePanel(panel); }}
-            @keydown=${(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                e.stopPropagation();
-                this.#closePanel(panel);
-              }
-            }}
-          >${iconX()}</span>
-        ` : nothing}
+        ${this.closable ? html`<sm-icon-button part="close" size="small" label="Close ${panel.label}" @click=${() => { this.#closePanel(panel); }}>${iconX()}</sm-icon-button>` : nothing}
       </button>
     `;
   }
 
-  render() {
+  render () {
     return html`
-      <div class="tabbed-pane__nav" role="tablist" @keydown=${this.#handleKeyDown}>
+      <div class="tabbed-pane__nav" role="tablist">
         ${this._panels.map(p => this.#renderTab(p))}
       </div>
       <div class="tabbed-pane__body">
