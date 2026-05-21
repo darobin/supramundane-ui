@@ -1,11 +1,12 @@
 
-import { LitElement, html, css, nothing } from 'lit';
+import { html, css, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
+import { SupramundaneElement } from '../core.js';
 import { iconX } from '../icons.js';
 import './icon.js';
 import './icon-button.js';
 
-export class TabbedPane extends LitElement {
+export class TabbedPane extends SupramundaneElement {
   static properties = {
     closable: { type: Boolean, reflect: true },
     _panels: { state: true },
@@ -66,20 +67,9 @@ export class TabbedPane extends LitElement {
       outline-offset: var(--sm-focus-ring-offset);
     }
 
-    .tab:hover:not(.tab--disabled) {
-      color: var(--sm-color-accent-700);
-      background-color: var(--sm-color-neutral-100);
-    }
-
     .tab--active {
       color: var(--sm-color-accent-700);
       border-bottom-color: var(--sm-color-accent-600);
-    }
-
-    .tab--disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      pointer-events: none;
     }
 
     .tab svg {
@@ -89,13 +79,13 @@ export class TabbedPane extends LitElement {
     }
   `;
 
-  constructor() {
+  constructor () {
     super();
     this.closable = false;
     this._panels = [];
   }
 
-  connectedCallback() {
+  connectedCallback () {
     super.connectedCallback();
     this.#observer = new MutationObserver(() => {
       this._panels = [...this.querySelectorAll(':scope > sm-tab-panel')];
@@ -104,7 +94,7 @@ export class TabbedPane extends LitElement {
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ['label', 'disabled', 'active'],
+      attributeFilter: ['label', 'active'],
     });
   }
 
@@ -116,38 +106,39 @@ export class TabbedPane extends LitElement {
 
   firstUpdated () {
     this._panels = [...this.querySelectorAll(':scope > sm-tab-panel')];
-    const first = this._panels.find(p => !p.disabled);
-    if (first) this.#selectPanel(first);
+    if (this._panels.length && !this._panels.find(p => p.active)) this.#handleActivatePanel(this._panels[0]);
   }
 
   #selectPanel (target) {
     this._panels.forEach(p => { p.active = p === target; p.hidden = !p.active });
     console.warn(`#selectPanel`, this._panels);
-    this.updateComplete.then(() => {
-      this.shadowRoot?.querySelector('.tab--active')?.focus();
-    });
   }
 
-  #closePanel(panel) {
+  #closePanel (panel) {
+    // if the panel was active, need to change the current active one
     const wasActive = panel.active;
-    const idx = this._panels.indexOf(panel);
-
-    const event = new CustomEvent('sm-tab-close', {
-      detail: { panel },
-      bubbles: true,
-      composed: true,
-      cancelable: true,
-    });
-    if (!this.dispatchEvent(event)) return;
-
+    let nextIdx;
+    if (wasActive) {
+      const idx = this._panels.indexOf(panel);
+      nextIdx = (idx === 0) ? 0 : idx - 1;
+    }
     panel.remove();
     this._panels = [...this.querySelectorAll(':scope > sm-tab-panel')];
+    this.emit('sm-tab-closed', { detail: { panel } });
+    if (typeof nextIdx !== 'undefined') this.#handleActivatePanel(this._panels[nextIdx]);
+  }
 
-    if (wasActive) {
-      const enabled = this._panels.filter(p => !p.disabled);
-      const next = enabled[Math.min(idx, enabled.length - 1)];
-      if (next) this.#selectPanel(next);
-    }
+  #handleActivatePanel (panel) {
+    const activeIndex = this._panels.indexOf(panel);
+    const event = this.emit('sm-activate-tab', { detail: { panel, activeIndex } });
+    console.warn(`sm-activate-tab`, event);
+    if (!event.defaultPrevented) this.#selectPanel(panel);
+  }
+  #handleClosePanel (panel) {
+    const activeIndex = this._panels.indexOf(panel);
+    const event = this.emit('sm-close-tab', { detail: { panel, activeIndex } });
+    console.warn(`sm-close-tab`, event);
+    if (!event.defaultPrevented) this.#closePanel(panel);
   }
 
   #renderTab (panel) {
@@ -159,17 +150,15 @@ export class TabbedPane extends LitElement {
         class=${classMap({
           tab: true,
           'tab--active': panel.active,
-          'tab--disabled': panel.disabled,
         })}
         role="tab"
         aria-selected=${panel.active ? 'true' : 'false'}
-        aria-disabled=${panel.disabled ? 'true' : 'false'}
         tabindex=${panel.active ? '0' : '-1'}
-        @click=${() => !panel.disabled && this.#selectPanel(panel)}
+        @click=${() => this.#handleActivatePanel(panel)}
       >
         ${icon ? html`<sm-icon>${icon}</sm-icon>` : nothing}
         <span class="tab__label">${panel.label}</span>
-        ${this.closable ? html`<sm-icon-button part="close" size="small" label="Close ${panel.label}" @click=${() => { this.#closePanel(panel); }}>${iconX()}</sm-icon-button>` : nothing}
+        ${this.closable ? html`<sm-icon-button part="close" size="small" label="Close ${panel.label}" @click=${() => this.#handleClosePanel(panel)}>${iconX()}</sm-icon-button>` : nothing}
       </button>
     `;
   }

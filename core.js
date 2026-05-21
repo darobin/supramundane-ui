@@ -5,7 +5,7 @@ export class SupramundaneElement extends LitElement {
   emit (name, options) {
     const event = new CustomEvent(name, {
       bubbles: true,
-      cancelable: false,
+      cancelable: true,
       composed: true,
       detail: {},
       ...options,
