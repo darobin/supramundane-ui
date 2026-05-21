@@ -62,11 +62,6 @@ export class TabbedPane extends SupramundaneElement {
       -webkit-appearance: none;
     }
 
-    .tab:focus-visible {
-      outline: var(--sm-focus-ring);
-      outline-offset: var(--sm-focus-ring-offset);
-    }
-
     .tab--active {
       color: var(--sm-color-accent-700);
       border-bottom-color: var(--sm-color-accent-600);
