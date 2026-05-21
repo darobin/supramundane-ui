@@ -111,33 +111,36 @@ export class TabbedPane extends SupramundaneElement {
 
   #selectPanel (target) {
     this._panels.forEach(p => { p.active = p === target; p.hidden = !p.active });
-    console.warn(`#selectPanel`, this._panels);
   }
 
-  #closePanel (panel) {
+  computeNextIndexOnClosing (panel) {
+    if (this._panels.length === 1) return -1;
     // if the panel was active, need to change the current active one
-    const wasActive = panel.active;
-    let nextIdx;
-    if (wasActive) {
-      const idx = this._panels.indexOf(panel);
-      nextIdx = (idx === 0) ? 0 : idx - 1;
+    const idx = this._panels.indexOf(panel);
+    if (panel.active) {
+      return (idx === 0) ? 0 : idx - 1;
     }
+    const activeIdx = this._panels.findIndex(p => p.active);
+    return (idx < activeIdx) ? activeIdx - 1 : activeIdx;
+  }
+  #closePanel (panel) {
     panel.remove();
     this._panels = [...this.querySelectorAll(':scope > sm-tab-panel')];
     this.emit('sm-tab-closed', { detail: { panel } });
-    if (typeof nextIdx !== 'undefined') this.#handleActivatePanel(this._panels[nextIdx]);
+    if (this._panels.length) this.#handleActivatePanel(this._panels[this.computeNextIndexOnClosing(panel)]);
   }
 
-  #handleActivatePanel (panel) {
+  #handleActivatePanel (ev, panel) {
+    ev.stopPropagation();
     const activeIndex = this._panels.indexOf(panel);
     const event = this.emit('sm-activate-tab', { detail: { panel, activeIndex } });
-    console.warn(`sm-activate-tab`, event);
     if (!event.defaultPrevented) this.#selectPanel(panel);
   }
-  #handleClosePanel (panel) {
+  #handleClosePanel (ev, panel) {
+    ev.stopPropagation();
     const activeIndex = this._panels.indexOf(panel);
-    const event = this.emit('sm-close-tab', { detail: { panel, activeIndex } });
-    console.warn(`sm-close-tab`, event);
+    const nextIndex = this.computeNextIndexOnClosing(panel);
+    const event = this.emit('sm-close-tab', { detail: { panel, activeIndex, nextIndex } });
     if (!event.defaultPrevented) this.#closePanel(panel);
   }
 
@@ -154,11 +157,11 @@ export class TabbedPane extends SupramundaneElement {
         role="tab"
         aria-selected=${panel.active ? 'true' : 'false'}
         tabindex=${panel.active ? '0' : '-1'}
-        @click=${() => this.#handleActivatePanel(panel)}
+        @click=${(ev) => this.#handleActivatePanel(ev, panel)}
       >
         ${icon ? html`<sm-icon>${icon}</sm-icon>` : nothing}
         <span class="tab__label">${panel.label}</span>
-        ${this.closable ? html`<sm-icon-button part="close" size="small" label="Close ${panel.label}" @click=${() => this.#handleClosePanel(panel)}>${iconX()}</sm-icon-button>` : nothing}
+        ${this.closable ? html`<sm-icon-button part="close" size="small" label="Close ${panel.label}" @click=${(ev) => this.#handleClosePanel(ev, panel)}>${iconX()}</sm-icon-button>` : nothing}
       </button>
     `;
   }
