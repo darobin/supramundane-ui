@@ -9,6 +9,7 @@ import './icon-button.js';
 export class TabbedPane extends SupramundaneElement {
   static properties = {
     closable: { type: Boolean, reflect: true },
+    fullscreen: { type: Boolean, reflect: true },
     _panels: { state: true },
   };
 
@@ -26,6 +27,9 @@ export class TabbedPane extends SupramundaneElement {
       border-bottom: 1px solid var(--sm-panel-border-color);
       overflow-x: auto;
       scrollbar-width: none;
+    }
+    .tabbed-pane__fullscreen {
+      display: none;
     }
 
     .tabbed-pane__nav::-webkit-scrollbar {
@@ -163,7 +167,10 @@ export class TabbedPane extends SupramundaneElement {
 
   render () {
     return html`
-      <div class="tabbed-pane__nav" role="tablist">
+      <div class=${classMap({
+        'tabbed-pane__nav': true,
+        'tabbed-pane__fullscreen': this.fullscreen,
+      })} role="tablist">
         ${this._panels.map(p => this.#renderTab(p))}
       </div>
       <div class="tabbed-pane__body">
