@@ -7,7 +7,8 @@
   "license": "Apache-2.0",
   "scripts": {
     "test": "wtr",
-    "test:watch": "wtr --watch"
+    "test:watch": "wtr --watch",
+    "release": "npm run build && release-it"
   },
   "exports": {
     "./tokens": "./tokens/index.css",
@@ -45,9 +46,6 @@
     "rules": {}
   },
   "devDependencies": {
-    "@open-wc/testing": "^4.0.0",
-    "@web/test-runner": "^0.18.3",
-    "@web/test-runner-playwright": "^0.11.1",
     "eslint": "^8.26.0",
     "lit": "^3.3.2"
   }
