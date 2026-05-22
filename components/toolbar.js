@@ -1,7 +1,8 @@
 
-import { LitElement, html, css } from 'lit';
+import { html, css } from 'lit';
+import { SupramundaneElement } from '../core.js';
 
-export class SmToolbar extends LitElement {
+export class Toolbar extends SupramundaneElement {
   static styles = css`
     :host {
       display: inline-flex;
@@ -12,6 +13,10 @@ export class SmToolbar extends LitElement {
       border: var(--sm-panel-border-width) solid var(--sm-panel-border-color);
       border-radius: var(--sm-border-radius-medium);
       box-shadow: var(--sm-shadow-small);
+    }
+    :host([variant="flat"]) {
+      border-color: transparent;
+      box-shadow: none;
     }
 
     ::slotted(hr) {
@@ -29,4 +34,4 @@ export class SmToolbar extends LitElement {
   }
 }
 
-customElements.define('sm-toolbar', SmToolbar);
+customElements.define('sm-toolbar', Toolbar);
