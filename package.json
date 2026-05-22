@@ -5,6 +5,9 @@
   "description": "UI",
   "author": "Robin Berjon <robin@berjon.com>",
   "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "release": "release-it"
   },
