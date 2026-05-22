@@ -27,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/darobin/supramundane-ui.git"
+    "url": "git+https://github.com/darobin/supramundane-ui.git"
   },
   "eslintConfig": {
     "env": {
