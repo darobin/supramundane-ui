@@ -22,18 +22,24 @@ export class TabbedPane extends SupramundaneElement {
     }
 
     .tabbed-pane__nav {
-      display: flex;
-      align-items: flex-end;
+      border-top: 1px solid var(--sm-panel-border-color);
       border-bottom: 1px solid var(--sm-panel-border-color);
       overflow-x: auto;
       scrollbar-width: none;
+      padding: var(--sm-spacing-x-small);
     }
     .tabbed-pane__fullscreen {
       display: none;
     }
-
     .tabbed-pane__nav::-webkit-scrollbar {
       display: none;
+    }
+    .tabbed-pane__container {
+      display: flex;
+      align-items: flex-end;
+      background: var(--sm-color-neutral-100);
+      border-radius: var(--sm-spacing-x-small);
+      padding: var(--sm-spacing-2x-small) var(--sm-spacing-x-small);
     }
 
     .tabbed-pane__body {
@@ -48,33 +54,41 @@ export class TabbedPane extends SupramundaneElement {
       display: flex;
       align-items: center;
       gap: var(--sm-spacing-2x-small);
-      padding: var(--sm-spacing-x-small) var(--sm-spacing-x-small);
+      padding: var(--sm-spacing-2x-small) var(--sm-spacing-x-small);
       border: none;
-      border-bottom: 2px solid transparent;
-      border-radius: var(--sm-border-radius-small) var(--sm-border-radius-small) 0 0;
+      border-radius: var(--sm-border-radius-small);
       background: transparent;
-      color: var(--sm-color-neutral-600);
+      color: var(--sm-color-neutral-500);
       font-family: var(--sm-input-font-family);
       font-size: var(--sm-font-size-small);
-      font-weight: var(--sm-font-weight-semibold);
+      font-weight: var(--sm-font-weight-medium);
       white-space: nowrap;
-      cursor: pointer;
       transition:
-        var(--sm-transition-fast) color,
-        var(--sm-transition-fast) border-color,
-        var(--sm-transition-fast) background-color;
+        var(--sm-transition-medium) color,
+        var(--sm-transition-medium) border-color,
+        var(--sm-transition-medium) background-color;
       -webkit-appearance: none;
     }
-
     .tab--active {
-      color: var(--sm-color-accent-700);
-      border-bottom-color: var(--sm-color-accent-600);
+      color: var(--sm-color-neutral-1000);
+      background: var(--sm-color-neutral-0);
+      box-shadow: var(--sm-shadow-medium);
     }
-
+    .tab:hover {
+      color: var(--sm-color-neutral-1000);
+    }
     .tab svg {
       width: 1em;
       height: 1em;
       flex-shrink: 0;
+    }
+    .tab sm-icon-button {
+      opacity: 0;
+      transition: var(--sm-transition-medium) opacity;
+    }
+    .tab:hover sm-icon-button,
+    .tab--active  sm-icon-button {
+      opacity: 1;
     }
   `;
 
@@ -171,7 +185,9 @@ export class TabbedPane extends SupramundaneElement {
         'tabbed-pane__nav': true,
         'tabbed-pane__fullscreen': this.fullscreen,
       })} role="tablist">
-        ${this._panels.map(p => this.#renderTab(p))}
+        <div class="tabbed-pane__container">
+          ${this._panels.map(p => this.#renderTab(p))}
+        </div>
       </div>
       <div class="tabbed-pane__body">
         <slot></slot>

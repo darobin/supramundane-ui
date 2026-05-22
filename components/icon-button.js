@@ -48,11 +48,10 @@ export class IconButton extends SupramundaneElement {
       user-select: none;
       vertical-align: middle;
       transition:
-        var(--sm-transition-fast) background-color,
-        var(--sm-transition-fast) color,
-        var(--sm-transition-fast) border-color,
-        var(--sm-transition-fast) box-shadow;
-      cursor: pointer;
+        var(--sm-transition-medium) background-color,
+        var(--sm-transition-medium) color,
+        var(--sm-transition-medium) border-color,
+        var(--sm-transition-medium) box-shadow;
       -webkit-appearance: none;
     }
 
@@ -86,9 +85,8 @@ export class IconButton extends SupramundaneElement {
       color: var(--sm-color-neutral-700);
     }
     .button--default:hover:not(.button--disabled) {
-      background-color: var(--sm-color-accent-50);
-      border-color: var(--sm-color-accent-300);
-      color: var(--sm-color-accent-700);
+      background-color: var(--sm-color-neutral-50);
+      color: var(--sm-color-neutral-1000);
     }
     .button--default:active:not(.button--disabled) {
       background-color: var(--sm-color-accent-100);

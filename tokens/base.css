@@ -46,10 +46,15 @@
   --sm-font-size-4x-large: 4.5rem;
 
   /* Font weights */
+  --sm-font-weight-thin: 100;
+  --sm-font-weight-extralight: 200;
   --sm-font-weight-light: 300;
   --sm-font-weight-normal: 400;
-  --sm-font-weight-semibold: 500;
+  --sm-font-weight-medium: 500;
+  --sm-font-weight-semibold: 600;
   --sm-font-weight-bold: 700;
+  --sm-font-weight-extrabold: 800;
+  --sm-font-weight-black: 900;
 
   /* Letter spacings */
   --sm-letter-spacing-denser: -0.03em;
