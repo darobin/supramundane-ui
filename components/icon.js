@@ -15,7 +15,9 @@ export class Icon extends SupramundaneElement {
       box-sizing: content-box !important;
     }
     ::slotted(svg),
-    svg {
+    svg,
+    ::slotted(img),
+    img {
       display: block;
       height: 100%;
       width: 100%;
