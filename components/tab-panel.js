@@ -19,7 +19,7 @@ export class TabPanel extends LitElement {
       display: none;
     }
     .panel {
-      padding: var(--sm-spacing-medium);
+      padding: 0;
       height: 100%;
     }
     .panel[hidden] {
