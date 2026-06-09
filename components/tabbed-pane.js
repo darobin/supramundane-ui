@@ -2,7 +2,7 @@
 import { html, css, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { SupramundaneElement } from '../core.js';
-import { iconX } from '../icons.js';
+import { x } from '../icons.js';
 import './icon.js';
 import './icon-button.js';
 
@@ -174,7 +174,7 @@ export class TabbedPane extends SupramundaneElement {
       >
         ${icon ? html`<sm-icon>${icon}</sm-icon>` : nothing}
         <span class="tab__label">${panel.label}</span>
-        ${this.closable ? html`<sm-icon-button part="close" size="small" label="Close ${panel.label}" @click=${(ev) => this.#handleClosePanel(ev, panel)}>${iconX()}</sm-icon-button>` : nothing}
+        ${this.closable ? html`<sm-icon-button part="close" size="small" label="Close ${panel.label}" @click=${(ev) => this.#handleClosePanel(ev, panel)}>${x()}</sm-icon-button>` : nothing}
       </button>
     `;
   }

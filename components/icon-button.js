@@ -4,7 +4,7 @@ import { html, literal } from 'lit/static-html.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { SupramundaneElement } from '../core.js';
-import { iconSpinner } from '../icons.js';
+import { hourglassSplit } from '../icons.js';
 import './icon.js';
 
 export class IconButton extends SupramundaneElement {
@@ -41,7 +41,7 @@ export class IconButton extends SupramundaneElement {
       border-width: var(--sm-input-border-width);
       border-radius: var(--sm-border-radius-circle);
       aspect-ratio: 1;
-      padding: 0.5em;
+      padding: 0em;
       font-family: var(--sm-input-font-family);
       font-size: inherit;
       text-decoration: none;
@@ -266,7 +266,7 @@ export class IconButton extends SupramundaneElement {
           @blur=${this.#handleBlur}
           @focus=${this.#handleFocus}
         >
-          ${this.loading ? iconSpinner() : html`<slot></slot>`}
+          ${this.loading ? hourglassSplit() : html`<slot></slot>`}
         </${tag}>
       `;
   }

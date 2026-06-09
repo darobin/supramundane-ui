@@ -10,8 +10,8 @@ export class Icon extends SupramundaneElement {
   static styles = css`
     :host {
       display: inline-block;
-      width: 1em;
-      height: 1em;
+      width: 1.4em;
+      height: 1.4em;
       box-sizing: content-box !important;
     }
     ::slotted(svg),
