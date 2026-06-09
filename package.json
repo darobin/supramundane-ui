@@ -47,6 +47,7 @@
     "rules": {}
   },
   "devDependencies": {
+    "bootstrap-icons": "^1.13.1",
     "eslint": "^8.26.0",
     "lit": "^3.3.2"
   }
