@@ -57,7 +57,7 @@ export default class Input extends SupramundaneElement {
   };
 
   get input() {
-    return this.querySelector('.input__control');
+    return this.shadowRoot?.querySelector('.input__control');
   }
 
   #__numberInput = Object.assign(document.createElement('input'), { type: 'number' });
@@ -308,12 +308,13 @@ export default class Input extends SupramundaneElement {
     }`
   ];
 
-  constructor() {
+  constructor () {
     super();
     defaultValue()(this, 'defaultValue');
-    watch('disabled', { waitUntilFirstUpdate: true })(this, 'handleDisabledChange');
-    watch('step', { waitUntilFirstUpdate: true })(this, 'handleStepChange');
-    watch('value', { waitUntilFirstUpdate: true })(this, 'handleValueChange');
+    // XXX bring this back
+    // watch('disabled', { waitUntilFirstUpdate: true })(this, 'handleDisabledChange');
+    // watch('step', { waitUntilFirstUpdate: true })(this, 'handleStepChange');
+    // watch('value', { waitUntilFirstUpdate: true })(this, 'handleValueChange');
   }
   get valueAsDate () {
     this.#__dateInput.type = this.type;
@@ -333,8 +334,8 @@ export default class Input extends SupramundaneElement {
     this.#__numberInput.valueAsNumber = newValue;
     this.value = this.#__numberInput.value;
   }
-  get validity () { return this.input.validity; }
-  get validationMessage () { return this.input.validationMessage; }
+  get validity () { return this.input?.validity; }
+  get validationMessage () { return this.input?.validationMessage; }
 
   firstUpdated () {
     this.#formControlController.updateValidity();
@@ -344,7 +345,7 @@ export default class Input extends SupramundaneElement {
     this.emit('sm-blur');
   }
   #handleChange () {
-    this.value = this.input.value;
+    this.value = this.input?.value;
     this.emit('sm-change');
   }
   #handleClearClick (ev) {
@@ -355,14 +356,14 @@ export default class Input extends SupramundaneElement {
       this.emit('sm-input');
       this.emit('sm-change');
     }
-    this.input.focus();
+    this.input?.focus();
   }
   #handleFocus () {
     this.hasFocus = true;
     this.emit('s,-focus');
   }
   #handleInput () {
-    this.value = this.input.value;
+    this.value = this.input?.value;
     this.#formControlController.updateValidity();
     this.emit('sm-input');
   }
@@ -393,7 +394,7 @@ export default class Input extends SupramundaneElement {
   handleStepChange () {
     // If step changes, the value may become invalid so we need to recheck after the update. We set the new step
     // imperatively so we don't have to wait for the next render to report the updated validity.
-    this.input.step = String(this.step);
+    if (this.input) this.input.step = String(this.step);
     this.#formControlController.updateValidity();
   }
   async handleValueChange () {
@@ -402,45 +403,45 @@ export default class Input extends SupramundaneElement {
   }
 
   focus (options) {
-    this.input.focus(options);
+    this.input?.focus(options);
   }
   blur () {
-    this.input.blur();
+    this.input?.blur();
   }
   select () {
-    this.input.select();
+    this.input?.select();
   }
   setSelectionRange(selectionStart, selectionEnd, selectionDirection ) {
-    this.input.setSelectionRange(selectionStart, selectionEnd, selectionDirection);
+    this.input?.setSelectionRange(selectionStart, selectionEnd, selectionDirection);
   }
   setRangeText (replacement, start, end, selectMode) {
-    const selectionStart = start ?? this.input.selectionStart;
-    const selectionEnd = end ?? this.input.selectionEnd;
-    this.input.setRangeText(replacement, selectionStart, selectionEnd, selectMode);
-    if (this.value !== this.input.value) this.value = this.input.value;
+    const selectionStart = start ?? this.input?.selectionStart;
+    const selectionEnd = end ?? this.input?.selectionEnd;
+    this.input?.setRangeText(replacement, selectionStart, selectionEnd, selectMode);
+    if (this.value !== this.input?.value) this.value = this.input?.value;
   }
   showPicker () {
-    if ('showPicker' in HTMLInputElement.prototype) this.input.showPicker();
+    if ('showPicker' in HTMLInputElement.prototype) this.input?.showPicker();
   }
   stepUp () {
-    this.input.stepUp();
-    if (this.value !== this.input.value) this.value = this.input.value;
+    this.input?.stepUp();
+    if (this.value !== this.input?.value) this.value = this.input?.value;
   }
   stepDown () {
-    this.input.stepDown();
-    if (this.value !== this.input.value) this.value = this.input.value;
+    this.input?.stepDown();
+    if (this.value !== this.input?.value) this.value = this.input?.value;
   }
   checkValidity () {
-    return this.input.checkValidity();
+    return this.input?.checkValidity();
   }
   getForm () {
     return this.#formControlController.getForm();
   }
   reportValidity () {
-    return this.input.reportValidity();
+    return this.input?.reportValidity();
   }
   setCustomValidity (message) {
-    this.input.setCustomValidity(message);
+    this.input?.setCustomValidity(message);
     this.#formControlController.updateValidity();
   }
   render () {

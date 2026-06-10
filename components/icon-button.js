@@ -214,7 +214,7 @@ export class IconButton extends SupramundaneElement {
   }
 
   get button () {
-    return this.querySelector('.button');
+    return this.shadowRoot?.querySelector('.button');
   }
   #handleBlur () {
     this.hasFocus = false;

@@ -392,6 +392,7 @@ export function watch (propertyName, options) {
   return (proto, decoratedFnName) => {
     const { update } = proto;
     const watchedProperties = Array.isArray(propertyName) ? propertyName : [propertyName];
+    console.warn(`in watch,`, update, watchedProperties);
     proto.update = function (self, changedProps) {
       watchedProperties.forEach(property => {
         const key = property;
