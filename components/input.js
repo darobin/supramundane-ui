@@ -24,7 +24,7 @@ export default class Input extends SupramundaneElement {
     clearable: { type: Boolean },
     disabled: { type: Boolean, reflect: true },
     enterkeyhint: { type: String },
-    form: { reflect: true, default: '' },
+    form: { reflect: true },
     hasFocus: { state: true },
     helpText: { type: String, attribute: 'help-text' },
     inputmode: { type: String },
@@ -34,17 +34,16 @@ export default class Input extends SupramundaneElement {
     maxlength: { type: Number },
     minlength: { type: Number },
     name: { type: String },
-    noSpinButtons: { type: Boolean, default: false, attribute: 'no-spin-buttons' },
+    noSpinButtons: { type: Boolean, attribute: 'no-spin-buttons' },
     pattern: { type: String },
-    passwordToggle: { type: Boolean, default: false, attribute: 'password-toggle' },
-    passwordVisible: { type: Boolean, default: false, attribute: 'password-visible' },
+    passwordToggle: { type: Boolean, attribute: 'password-toggle' },
+    passwordVisible: { type: Boolean, attribute: 'password-visible' },
     placeholder: { type: String },
     readonly: { type: Boolean, reflect: true },
-    required: { type: Boolean, reflect: true, default: false },
-    size: { type: String, reflect: true, default: 'medium' },
+    required: { type: Boolean, reflect: true },
+    size: { type: String, reflect: true },
     spellcheck: {
       type: Boolean,
-      default: true,
       converter: {
         fromAttribute: value => (!value || value === 'false' ? false : true),
         toAttribute: value => (value ? 'true' : 'false'),
@@ -52,7 +51,7 @@ export default class Input extends SupramundaneElement {
     },
     step: { type: Number },
     title: { type: String },
-    type: { type: String, reflect: true, default: 'text' },
+    type: { type: String, reflect: true },
     value: { type: String },
   };
 
@@ -310,6 +309,15 @@ export default class Input extends SupramundaneElement {
 
   constructor () {
     super();
+    this.form = '';
+    this.noSpinButtons = false;
+    this.passwordToggle = false;
+    this.passwordVisible = false;
+    this.readonly = true;
+    this.required = false;
+    this.size = 'medium';
+    this.spellcheck = true;
+    this.type = 'text';
     defaultValue()(this, 'defaultValue');
     // XXX bring this back
     // watch('disabled', { waitUntilFirstUpdate: true })(this, 'handleDisabledChange');

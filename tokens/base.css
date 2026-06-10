@@ -2,6 +2,7 @@
 :root,
 :host {
   /* Border radii — matches shadcn's 0.625rem base radius */
+  --sm-border-radius-x-small: 0.18rem;
   --sm-border-radius-small: 0.375rem;
   --sm-border-radius-medium: 0.5rem;
   --sm-border-radius-large: 0.75rem;
@@ -91,9 +92,9 @@
   --sm-input-required-content-offset: -2px;
   --sm-input-focus-ring-offset: 0;
 
-  --sm-input-border-radius-small: var(--sm-border-radius-medium);
-  --sm-input-border-radius-medium: var(--sm-border-radius-medium);
-  --sm-input-border-radius-large: var(--sm-border-radius-medium);
+  --sm-input-border-radius-small: var(--sm-border-radius-x-small);
+  --sm-input-border-radius-medium: var(--sm-border-radius-x-small);
+  --sm-input-border-radius-large: var(--sm-border-radius-x-small);
 
   --sm-input-font-family: var(--sm-font-sans);
   --sm-input-font-weight: var(--sm-font-weight-normal);
