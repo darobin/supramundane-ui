@@ -1,9 +1,12 @@
 
 import { html, css } from 'lit';
 import { SupramundaneElement } from '../core.js';
+import { baseElement } from '../styles.js';
 
 export class Toolbar extends SupramundaneElement {
-  static styles = css`
+  static styles = [
+    baseElement,
+    css`
     :host {
       display: inline-flex;
       align-items: center;
@@ -27,7 +30,8 @@ export class Toolbar extends SupramundaneElement {
       background: var(--sm-panel-border-color);
       margin: var(--sm-spacing-2x-small) var(--sm-spacing-3x-small);
     }
-  `;
+  `
+  ];
 
   render() {
     return html`<slot></slot>`;

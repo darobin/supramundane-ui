@@ -1,13 +1,16 @@
 
 import { css, html } from 'lit';
 import { SupramundaneElement } from '../core.js';
+import { baseElement } from '../styles.js';
 
 export class Icon extends SupramundaneElement {
   static properties = {
     label: { type: String },
   };
 
-  static styles = css`
+  static styles = [
+    baseElement,
+    css`
     :host {
       display: inline-block;
       width: 1.4em;
@@ -22,7 +25,7 @@ export class Icon extends SupramundaneElement {
       height: 100%;
       width: 100%;
     }
-  `;
+  `];
 
   constructor() {
     super();

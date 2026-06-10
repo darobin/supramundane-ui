@@ -1,5 +1,6 @@
 
 import { LitElement, html, css } from 'lit';
+import { baseElement } from '../styles.js';
 
 export class TabPanel extends LitElement {
   static properties = {
@@ -8,7 +9,9 @@ export class TabPanel extends LitElement {
     disabled: { type: Boolean, reflect: true },
   };
 
-  static styles = css`
+  static styles = [
+    baseElement,
+    css`
     :host:not([hidden]) {
       display: block;
       height: 100%;
@@ -25,7 +28,7 @@ export class TabPanel extends LitElement {
     .panel[hidden] {
       display: none;
     }
-  `;
+  `];
 
   constructor () {
     super();

@@ -1,17 +1,16 @@
 
 import { css, html } from 'lit';
-import { SupramundaneElement, FormControlController,HasSlotController } from '../core.js';
+import { classMap } from 'lit/directives/class-map.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { live } from 'lit/directives/live.js';
+import { SupramundaneElement, FormControlController, HasSlotController, defaultValue, watch } from '../core.js';
+import { baseElement, formElement } from '../styles.js';
+import { xCircleFill, eye, eyeSlash } from '../icons.js';
+import './icon.js';
 
-// import { classMap } from 'lit/directives/class-map.js';
-// import { defaultValue } from '../../internal/default-value.js';
-// import { ifDefined } from 'lit/directives/if-defined.js';
-// import { live } from 'lit/directives/live.js';
-// import { property, query, state } from 'lit/decorators.js';
-// import { watch } from '../../internal/watch.js';
-// import componentStyles from '../../styles/component.styles.js';
-// import formControlStyles from '../../styles/form-control.styles.js';
-// import ShoelaceElement from '../../internal/shoelace-element.js';
-// import SlIcon from '../icon/icon.component.js';
+// XXX
+// - render
+// - style?
 
 export default class Input extends SupramundaneElement {
   #formControlController = new FormControlController(this, { assumeInteractionOn: ['sm-blur', 'sm-input'] });
@@ -24,22 +23,37 @@ export default class Input extends SupramundaneElement {
     autofocus: { type: Boolean },
     clearable: { type: Boolean },
     disabled: { type: Boolean, reflect: true },
+    enterkeyhint: { type: String },
+    form: { reflect: true, default: '' },
     hasFocus: { state: true },
+    helpText: { type: String, attribute: 'help-text' },
+    inputmode: { type: String },
     label: { type: String },
     max: {},
     min: {},
     maxlength: { type: Number },
     minlength: { type: Number },
     name: { type: String },
+    noSpinButtons: { type: Boolean, default: false, attribute: 'no-spin-buttons' },
     pattern: { type: String },
+    passwordToggle: { type: Boolean, default: false, attribute: 'password-toggle' },
+    passwordVisible: { type: Boolean, default: false, attribute: 'password-visible' },
     placeholder: { type: String },
     readonly: { type: Boolean, reflect: true },
+    required: { type: Boolean, reflect: true, default: false },
     size: { type: String, reflect: true, default: 'medium' },
+    spellcheck: {
+      type: Boolean,
+      default: true,
+      converter: {
+        fromAttribute: value => (!value || value === 'false' ? false : true),
+        toAttribute: value => (value ? 'true' : 'false'),
+      },
+    },
     step: { type: Number },
     title: { type: String },
     type: { type: String, reflect: true, default: 'text' },
     value: { type: String },
-
   };
 
   get input() {
@@ -49,47 +63,10 @@ export default class Input extends SupramundaneElement {
   #__numberInput = Object.assign(document.createElement('input'), { type: 'number' });
   #__dateInput = Object.assign(document.createElement('input'), { type: 'date' });
 
-  /** The default value of the form control. Primarily used for resetting the form control. */
-  @defaultValue() defaultValue = '';
-
-  /** The input's help text. If you need to display HTML, use the `help-text` slot instead. */
-  @property({ attribute: 'help-text' }) helpText = '';
-
-  /** Adds a button to toggle the password's visibility. Only applies to password types. */
-  @property({ attribute: 'password-toggle', type: Boolean }) passwordToggle = false;
-
-  /** Determines whether or not the password is currently visible. Only applies to password input types. */
-  @property({ attribute: 'password-visible', type: Boolean }) passwordVisible = false;
-
-  /** Hides the browser's built-in increment/decrement spin buttons for number inputs. */
-  @property({ attribute: 'no-spin-buttons', type: Boolean }) noSpinButtons = false;
-
-  @property({ reflect: true }) form = '';
-
-  /** Makes the input a required field. */
-  @property({ type: Boolean, reflect: true }) required = false;
-
-  /** Used to customize the label or icon of the Enter key on virtual keyboards. */
-  @property() enterkeyhint: 'enter' | 'done' | 'go' | 'next' | 'previous' | 'search' | 'send';
-
-  /** Enables spell checking on the input. */
-  @property({
-    type: Boolean,
-    converter: {
-      // Allow "true|false" attribute values but keep the property boolean
-      fromAttribute: value => (!value || value === 'false' ? false : true),
-      toAttribute: value => (value ? 'true' : 'false')
-    }
-  })
-  spellcheck = true;
-
-  /**
-   * Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual
-   * keyboard on supportive devices.
-   */
-  @property() inputmode: 'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url';
-
-  static styles = css`
+  static styles = [
+    baseElement,
+    formElement,
+    css`
     :host {
       display: block;
     }
@@ -101,53 +78,53 @@ export default class Input extends SupramundaneElement {
       justify-content: start;
       position: relative;
       width: 100%;
-      font-family: var(--sl-input-font-family);
-      font-weight: var(--sl-input-font-weight);
-      letter-spacing: var(--sl-input-letter-spacing);
+      font-family: var(--sm-input-font-family);
+      font-weight: var(--sm-input-font-weight);
+      letter-spacing: var(--sm-input-letter-spacing);
       vertical-align: middle;
       overflow: hidden;
       cursor: text;
       transition:
-        var(--sl-transition-fast) color,
-        var(--sl-transition-fast) border,
-        var(--sl-transition-fast) box-shadow,
-        var(--sl-transition-fast) background-color;
+        var(--sm-transition-fast) color,
+        var(--sm-transition-fast) border,
+        var(--sm-transition-fast) box-shadow,
+        var(--sm-transition-fast) background-color;
     }
 
     /* Standard inputs */
     .input--standard {
-      background-color: var(--sl-input-background-color);
-      border: solid var(--sl-input-border-width) var(--sl-input-border-color);
+      background-color: var(--sm-input-background-color);
+      border: solid var(--sm-input-border-width) var(--sm-input-border-color);
     }
 
     .input--standard:hover:not(.input--disabled) {
-      background-color: var(--sl-input-background-color-hover);
-      border-color: var(--sl-input-border-color-hover);
+      background-color: var(--sm-input-background-color-hover);
+      border-color: var(--sm-input-border-color-hover);
     }
 
     .input--standard.input--focused:not(.input--disabled) {
-      background-color: var(--sl-input-background-color-focus);
-      border-color: var(--sl-input-border-color-focus);
-      box-shadow: 0 0 0 var(--sl-focus-ring-width) var(--sl-input-focus-ring-color);
+      background-color: var(--sm-input-background-color-focus);
+      border-color: var(--sm-input-border-color-focus);
+      box-shadow: 0 0 0 var(--sm-focus-ring-width) var(--sm-input-focus-ring-color);
     }
 
     .input--standard.input--focused:not(.input--disabled) .input__control {
-      color: var(--sl-input-color-focus);
+      color: var(--sm-input-color-focus);
     }
 
     .input--standard.input--disabled {
-      background-color: var(--sl-input-background-color-disabled);
-      border-color: var(--sl-input-border-color-disabled);
+      background-color: var(--sm-input-background-color-disabled);
+      border-color: var(--sm-input-border-color-disabled);
       opacity: 0.5;
       cursor: not-allowed;
     }
 
     .input--standard.input--disabled .input__control {
-      color: var(--sl-input-color-disabled);
+      color: var(--sm-input-color-disabled);
     }
 
     .input--standard.input--disabled .input__control::placeholder {
-      color: var(--sl-input-placeholder-color-disabled);
+      color: var(--sm-input-placeholder-color-disabled);
     }
 
     .input__control {
@@ -157,7 +134,7 @@ export default class Input extends SupramundaneElement {
       font-weight: inherit;
       min-width: 0;
       height: 100%;
-      color: var(--sl-input-color);
+      color: var(--sm-input-color);
       border: none;
       background: inherit;
       box-shadow: none;
@@ -178,19 +155,19 @@ export default class Input extends SupramundaneElement {
     .input__control:-webkit-autofill:hover,
     .input__control:-webkit-autofill:focus,
     .input__control:-webkit-autofill:active {
-      box-shadow: 0 0 0 var(--sl-input-height-large) var(--sl-input-background-color-hover) inset !important;
-      -webkit-text-fill-color: var(--sl-color-primary-500);
-      caret-color: var(--sl-input-color);
+      box-shadow: 0 0 0 var(--sm-input-height-large) var(--sm-input-background-color-hover) inset !important;
+      -webkit-text-fill-color: var(--sm-color-primary-500);
+      caret-color: var(--sm-input-color);
     }
 
     .input__control::placeholder {
-      color: var(--sl-input-placeholder-color);
+      color: var(--sm-input-placeholder-color);
       user-select: none;
       -webkit-user-select: none;
     }
 
     .input:hover:not(.input--disabled) .input__control {
-      color: var(--sl-input-color-hover);
+      color: var(--sm-input-color-hover);
     }
 
     .input__control:focus {
@@ -205,9 +182,9 @@ export default class Input extends SupramundaneElement {
       cursor: default;
     }
 
-    .input__prefix ::slotted(sl-icon),
-    .input__suffix ::slotted(sl-icon) {
-      color: var(--sl-input-icon-color);
+    .input__prefix ::slotted(sm-icon),
+    .input__suffix ::slotted(sm-icon) {
+      color: var(--sm-input-icon-color);
     }
 
     /*
@@ -215,75 +192,75 @@ export default class Input extends SupramundaneElement {
     */
 
     .input--small {
-      border-radius: var(--sl-input-border-radius-small);
-      font-size: var(--sl-input-font-size-small);
-      height: var(--sl-input-height-small);
+      border-radius: var(--sm-input-border-radius-small);
+      font-size: var(--sm-input-font-size-small);
+      height: var(--sm-input-height-small);
     }
 
     .input--small .input__control {
-      height: calc(var(--sl-input-height-small) - var(--sl-input-border-width) * 2);
-      padding: 0 var(--sl-input-spacing-small);
+      height: calc(var(--sm-input-height-small) - var(--sm-input-border-width) * 2);
+      padding: 0 var(--sm-input-spacing-small);
     }
 
     .input--small .input__clear,
     .input--small .input__password-toggle {
-      width: calc(1em + var(--sl-input-spacing-small) * 2);
+      width: calc(1em + var(--sm-input-spacing-small) * 2);
     }
 
     .input--small .input__prefix ::slotted(*) {
-      margin-inline-start: var(--sl-input-spacing-small);
+      margin-inline-start: var(--sm-input-spacing-small);
     }
 
     .input--small .input__suffix ::slotted(*) {
-      margin-inline-end: var(--sl-input-spacing-small);
+      margin-inline-end: var(--sm-input-spacing-small);
     }
 
     .input--medium {
-      border-radius: var(--sl-input-border-radius-medium);
-      font-size: var(--sl-input-font-size-medium);
-      height: var(--sl-input-height-medium);
+      border-radius: var(--sm-input-border-radius-medium);
+      font-size: var(--sm-input-font-size-medium);
+      height: var(--sm-input-height-medium);
     }
 
     .input--medium .input__control {
-      height: calc(var(--sl-input-height-medium) - var(--sl-input-border-width) * 2);
-      padding: 0 var(--sl-input-spacing-medium);
+      height: calc(var(--sm-input-height-medium) - var(--sm-input-border-width) * 2);
+      padding: 0 var(--sm-input-spacing-medium);
     }
 
     .input--medium .input__clear,
     .input--medium .input__password-toggle {
-      width: calc(1em + var(--sl-input-spacing-medium) * 2);
+      width: calc(1em + var(--sm-input-spacing-medium) * 2);
     }
 
     .input--medium .input__prefix ::slotted(*) {
-      margin-inline-start: var(--sl-input-spacing-medium);
+      margin-inline-start: var(--sm-input-spacing-medium);
     }
 
     .input--medium .input__suffix ::slotted(*) {
-      margin-inline-end: var(--sl-input-spacing-medium);
+      margin-inline-end: var(--sm-input-spacing-medium);
     }
 
     .input--large {
-      border-radius: var(--sl-input-border-radius-large);
-      font-size: var(--sl-input-font-size-large);
-      height: var(--sl-input-height-large);
+      border-radius: var(--sm-input-border-radius-large);
+      font-size: var(--sm-input-font-size-large);
+      height: var(--sm-input-height-large);
     }
 
     .input--large .input__control {
-      height: calc(var(--sl-input-height-large) - var(--sl-input-border-width) * 2);
-      padding: 0 var(--sl-input-spacing-large);
+      height: calc(var(--sm-input-height-large) - var(--sm-input-border-width) * 2);
+      padding: 0 var(--sm-input-spacing-large);
     }
 
     .input--large .input__clear,
     .input--large .input__password-toggle {
-      width: calc(1em + var(--sl-input-spacing-large) * 2);
+      width: calc(1em + var(--sm-input-spacing-large) * 2);
     }
 
     .input--large .input__prefix ::slotted(*) {
-      margin-inline-start: var(--sl-input-spacing-large);
+      margin-inline-start: var(--sm-input-spacing-large);
     }
 
     .input--large .input__suffix ::slotted(*) {
-      margin-inline-end: var(--sl-input-spacing-large);
+      margin-inline-end: var(--sm-input-spacing-large);
     }
 
     /*
@@ -296,17 +273,17 @@ export default class Input extends SupramundaneElement {
       align-items: center;
       justify-content: center;
       font-size: inherit;
-      color: var(--sl-input-icon-color);
+      color: var(--sm-input-icon-color);
       border: none;
       background: none;
       padding: 0;
-      transition: var(--sl-transition-fast) color;
+      transition: var(--sm-transition-fast) color;
       cursor: pointer;
     }
 
     .input__clear:hover,
     .input__password-toggle:hover {
-      color: var(--sl-input-icon-color-hover);
+      color: var(--sm-input-icon-color-hover);
     }
 
     .input__clear:focus,
@@ -328,8 +305,16 @@ export default class Input extends SupramundaneElement {
 
     .input--no-spin-buttons input[type='number'] {
       -moz-appearance: textfield;
-    }`;
+    }`
+  ];
 
+  constructor() {
+    super();
+    defaultValue()(this, 'defaultValue');
+    watch('disabled', { waitUntilFirstUpdate: true })(this, 'handleDisabledChange');
+    watch('step', { waitUntilFirstUpdate: true })(this, 'handleStepChange');
+    watch('value', { waitUntilFirstUpdate: true })(this, 'handleValueChange');
+  }
   get valueAsDate () {
     this.#__dateInput.type = this.type;
     this.#__dateInput.value = this.value;
@@ -376,58 +361,42 @@ export default class Input extends SupramundaneElement {
     this.hasFocus = true;
     this.emit('s,-focus');
   }
-
-  private handleInput() {
+  #handleInput () {
     this.value = this.input.value;
     this.#formControlController.updateValidity();
-    this.emit('sl-input');
+    this.emit('sm-input');
   }
-
-  private handleInvalid(event: Event) {
+  #handleInvalid (ev) {
     this.#formControlController.setValidity(false);
-    this.#formControlController.emitInvalidEvent(event);
+    this.#formControlController.emitInvalidEvent(ev);
   }
-
-  private handleKeyDown(event: KeyboardEvent) {
-    const hasModifier = event.metaKey || event.ctrlKey || event.shiftKey || event.altKey;
-
+  #handleKeyDown (ev) {
+    const hasModifier = ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey;
     // Pressing enter when focused on an input should submit the form like a native input, but we wait a tick before
     // submitting to allow users to cancel the keydown event if they need to
-    if (event.key === 'Enter' && !hasModifier) {
+    if (ev.key === 'Enter' && !hasModifier) {
       setTimeout(() => {
-        //
         // When using an Input Method Editor (IME), pressing enter will cause the form to submit unexpectedly. One way
         // to check for this is to look at event.isComposing, which will be true when the IME is open.
-        //
         // See https://github.com/shoelace-style/shoelace/pull/988
-        //
-        if (!event.defaultPrevented && !event.isComposing) {
-          this.#formControlController.submit();
-        }
+        if (!ev.defaultPrevented && !ev.isComposing) this.#formControlController.submit();
       });
     }
   }
-
-  private handlePasswordToggle() {
+  #handlePasswordToggle () {
     this.passwordVisible = !this.passwordVisible;
   }
-
-  @watch('disabled', { waitUntilFirstUpdate: true })
-  handleDisabledChange() {
+  handleDisabledChange () {
     // Disabled form controls are always valid
     this.#formControlController.setValidity(this.disabled);
   }
-
-  @watch('step', { waitUntilFirstUpdate: true })
-  handleStepChange() {
+  handleStepChange () {
     // If step changes, the value may become invalid so we need to recheck after the update. We set the new step
     // imperatively so we don't have to wait for the next render to report the updated validity.
     this.input.step = String(this.step);
     this.#formControlController.updateValidity();
   }
-
-  @watch('value', { waitUntilFirstUpdate: true })
-  async handleValueChange() {
+  async handleValueChange () {
     await this.updateComplete;
     this.#formControlController.updateValidity();
   }
@@ -444,28 +413,14 @@ export default class Input extends SupramundaneElement {
   setSelectionRange(selectionStart, selectionEnd, selectionDirection ) {
     this.input.setSelectionRange(selectionStart, selectionEnd, selectionDirection);
   }
-
-  /** Replaces a range of text with a new string. */
-  setRangeText(
-    replacement: string,
-    start?: number,
-    end?: number,
-    selectMode: 'select' | 'start' | 'end' | 'preserve' = 'preserve'
-  ) {
-    const selectionStart = start ?? this.input.selectionStart!;
-    const selectionEnd = end ?? this.input.selectionEnd!;
-
+  setRangeText (replacement, start, end, selectMode) {
+    const selectionStart = start ?? this.input.selectionStart;
+    const selectionEnd = end ?? this.input.selectionEnd;
     this.input.setRangeText(replacement, selectionStart, selectionEnd, selectMode);
-
-    if (this.value !== this.input.value) {
-      this.value = this.input.value;
-    }
+    if (this.value !== this.input.value) this.value = this.input.value;
   }
-
   showPicker () {
-    if ('showPicker' in HTMLInputElement.prototype) {
-      this.input.showPicker();
-    }
+    if ('showPicker' in HTMLInputElement.prototype) this.input.showPicker();
   }
   stepUp () {
     this.input.stepUp();
@@ -522,12 +477,10 @@ export default class Input extends SupramundaneElement {
             part="base"
             class=${classMap({
               input: true,
-
               // Sizes
               'input--small': this.size === 'small',
               'input--medium': this.size === 'medium',
               'input--large': this.size === 'large',
-
               // States
               'input--standard': true,
               'input--disabled': this.disabled,
@@ -539,7 +492,6 @@ export default class Input extends SupramundaneElement {
             <span part="prefix" class="input__prefix">
               <slot name="prefix"></slot>
             </span>
-
             <input
               part="input"
               id="input"
@@ -555,7 +507,7 @@ export default class Input extends SupramundaneElement {
               maxlength=${ifDefined(this.maxlength)}
               min=${ifDefined(this.min)}
               max=${ifDefined(this.max)}
-              step=${ifDefined(this.step as number)}
+              step=${ifDefined(this.step)}
               .value=${live(this.value)}
               autocapitalize=${ifDefined(this.autocapitalize)}
               autocomplete=${ifDefined(this.autocomplete)}
@@ -567,13 +519,12 @@ export default class Input extends SupramundaneElement {
               inputmode=${ifDefined(this.inputmode)}
               aria-describedby="help-text"
               @change=${this.#handleChange}
-              @input=${this.handleInput}
-              @invalid=${this.handleInvalid}
-              @keydown=${this.handleKeyDown}
+              @input=${this.#handleInput}
+              @invalid=${this.#handleInvalid}
+              @keydown=${this.#handleKeyDown}
               @focus=${this.#handleFocus}
               @blur=${this.#handleBlur}
             />
-
             ${isClearIconVisible
               ? html`
                   <button
@@ -585,7 +536,7 @@ export default class Input extends SupramundaneElement {
                     tabindex="-1"
                   >
                     <slot name="clear-icon">
-                      <sl-icon name="x-circle-fill" library="system"></sl-icon>
+                      ${xCircleFill()}
                     </slot>
                   </button>
                 `
@@ -597,18 +548,18 @@ export default class Input extends SupramundaneElement {
                     class="input__password-toggle"
                     type="button"
                     aria-label=${this.passwordVisible ? 'Hide password' : 'Show password'}
-                    @click=${this.handlePasswordToggle}
+                    @click=${this.#handlePasswordToggle}
                     tabindex="-1"
                   >
                     ${this.passwordVisible
                       ? html`
                           <slot name="show-password-icon">
-                            <sl-icon name="eye-slash" library="system"></sl-icon>
+                            ${eyeSlash()}
                           </slot>
                         `
                       : html`
                           <slot name="hide-password-icon">
-                            <sl-icon name="eye" library="system"></sl-icon>
+                            ${eye()}
                           </slot>
                         `}
                   </button>
@@ -620,7 +571,6 @@ export default class Input extends SupramundaneElement {
             </span>
           </div>
         </div>
-
         <div
           part="form-control-help-text"
           id="help-text"
@@ -633,3 +583,5 @@ export default class Input extends SupramundaneElement {
     `;
   }
 }
+
+customElements.define('sm-input', Input);

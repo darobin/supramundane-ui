@@ -2,6 +2,7 @@
 import { html, css, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { SupramundaneElement } from '../core.js';
+import { baseElement } from '../styles.js';
 import { x } from '../icons.js';
 import './icon.js';
 import './icon-button.js';
@@ -15,7 +16,9 @@ export class TabbedPane extends SupramundaneElement {
 
   #observer = null;
 
-  static styles = css`
+  static styles = [
+    baseElement,
+    css`
     :host {
       display: flex;
       flex-direction: column;
@@ -90,7 +93,7 @@ export class TabbedPane extends SupramundaneElement {
     .tab--active  sm-icon-button {
       opacity: 1;
     }
-  `;
+  `];
 
   constructor () {
     super();

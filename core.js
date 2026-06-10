@@ -1,5 +1,5 @@
 
-import { LitElement } from 'lit';
+import { LitElement, defaultConverter } from 'lit';
 
 export class SupramundaneElement extends LitElement {
   emit (name, options) {
@@ -357,5 +357,55 @@ export class HasSlotController {
     if ((this.slotNames.includes('[default]') && !slot.name) || (slot.name && this.slotNames.includes(slot.name))) {
       this.host.requestUpdate();
     }
+  };
+}
+
+export const defaultValue =
+  (propertyName = 'value') =>
+  (proto, key) => {
+    const ctor = proto.constructor;
+    const attributeChangedCallback = ctor.prototype.attributeChangedCallback;
+    ctor.prototype.attributeChangedCallback = function (self, name, old, value) {
+      const options = ctor.getPropertyOptions(propertyName);
+      const attributeName = typeof options.attribute === 'string' ? options.attribute : propertyName;
+      if (name === attributeName) {
+        const converter = options.converter || defaultConverter;
+        const fromAttribute = typeof converter === 'function' ? converter : (converter?.fromAttribute ?? defaultConverter.fromAttribute);
+        const newValue = fromAttribute(value, options.type);
+        if (self[propertyName] !== newValue) self[key] = newValue;
+      }
+      attributeChangedCallback.call(self, name, old, value);
+    };
+  }
+;
+
+/**
+ * Runs when observed properties change, e.g. @property or @state, but before the component updates. To wait for an
+ * update to complete after a change occurs, use `await this.updateComplete` in the handler. To start watching after the
+ * initial update/render, use `{ waitUntilFirstUpdate: true }` or `this.hasUpdated` in the handler.
+ */
+export function watch (propertyName, options) {
+  const resolvedOptions = {
+    waitUntilFirstUpdate: false,
+    ...options
+  };
+  return (proto, decoratedFnName) => {
+    const { update } = proto;
+    const watchedProperties = Array.isArray(propertyName) ? propertyName : [propertyName];
+    proto.update = function (self, changedProps) {
+      watchedProperties.forEach(property => {
+        const key = property;
+        if (changedProps.has(key)) {
+          const oldValue = changedProps.get(key);
+          const newValue = self[key];
+          if (oldValue !== newValue) {
+            if (!resolvedOptions.waitUntilFirstUpdate || self.hasUpdated) {
+              (self[decoratedFnName])(oldValue, newValue);
+            }
+          }
+        }
+      });
+      update.call(self, changedProps);
+    };
   };
 }

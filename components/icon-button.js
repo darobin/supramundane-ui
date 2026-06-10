@@ -4,6 +4,7 @@ import { html, literal } from 'lit/static-html.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { SupramundaneElement } from '../core.js';
+import { baseElement } from '../styles.js';
 import { hourglassSplit } from '../icons.js';
 import './icon.js';
 
@@ -20,7 +21,9 @@ export class IconButton extends SupramundaneElement {
     hasFocus: { state: true },
   };
 
-  static styles = css`
+  static styles = [
+    baseElement,
+    css`
     :host {
       display: inline-block;
       position: relative;
@@ -200,7 +203,7 @@ export class IconButton extends SupramundaneElement {
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
-  `;
+  `];
 
   constructor() {
     super();
