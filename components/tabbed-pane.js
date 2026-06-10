@@ -93,6 +93,11 @@ export class TabbedPane extends SupramundaneElement {
     .tab--active  sm-icon-button {
       opacity: 1;
     }
+    .tab__label {
+      max-width: 10rem;
+      overflow: clip;
+      text-overflow: ellipsis;
+    }
   `];
 
   constructor () {

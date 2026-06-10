@@ -3,7 +3,7 @@ import { css, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { live } from 'lit/directives/live.js';
-import { SupramundaneElement, FormControlController, HasSlotController, defaultValue, watch } from '../core.js';
+import { SupramundaneElement, FormControlController, HasSlotController, defaultValue } from '../core.js';
 import { baseElement, formElement } from '../styles.js';
 import { xCircleFill, eye, eyeSlash } from '../icons.js';
 import './icon.js';
