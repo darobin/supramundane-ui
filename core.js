@@ -81,7 +81,7 @@ export class FormControlController {
       this.#attachForm(form);
     }
     if (this.host.hasUpdated) {
-      this.setValidity(this.host.validity.valid);
+      this.setValidity(this.host.validity?.valid);
     }
   }
   #attachForm (form) {
@@ -298,7 +298,7 @@ export class FormControlController {
    */
   updateValidity () {
     const host = this.host;
-    this.setValidity(host.validity.valid);
+    this.setValidity(host.validity?.valid);
   }
   /**
    * Dispatches a non-bubbling, cancelable custom event of type `sm-invalid`.
@@ -389,11 +389,11 @@ export function watch (propertyName, options) {
     waitUntilFirstUpdate: false,
     ...options
   };
-  return (proto, decoratedFnName) => {
+  return (self, decoratedFnName) => {
+    const proto = self.constructor.prototype;
     const { update } = proto;
     const watchedProperties = Array.isArray(propertyName) ? propertyName : [propertyName];
-    console.warn(`in watch,`, update, watchedProperties);
-    proto.update = function (self, changedProps) {
+    proto.update = function (changedProps) {
       watchedProperties.forEach(property => {
         const key = property;
         if (changedProps.has(key)) {
