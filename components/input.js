@@ -313,7 +313,7 @@ export default class Input extends SupramundaneElement {
     this.noSpinButtons = false;
     this.passwordToggle = false;
     this.passwordVisible = false;
-    this.readonly = true;
+    this.readonly = false;
     this.required = false;
     this.size = 'medium';
     this.spellcheck = true;
@@ -483,7 +483,7 @@ export default class Input extends SupramundaneElement {
 
         <div part="form-control-input" class="form-control-input">
           <div
-            part="base"
+            part=${`base ${this.hasFocus ? 'focused' : ''} ${!this.value ? 'empty' : ''} ${this.disabled ? 'disabled' : ''}`}
             class=${classMap({
               input: true,
               // Sizes
@@ -533,7 +533,7 @@ export default class Input extends SupramundaneElement {
               @keydown=${this.#handleKeyDown}
               @focus=${this.#handleFocus}
               @blur=${this.#handleBlur}
-            />
+            >
             ${isClearIconVisible
               ? html`
                   <button
