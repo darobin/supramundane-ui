@@ -192,12 +192,12 @@ export class TabbedPane extends SupramundaneElement {
       <div class=${classMap({
         'tabbed-pane__nav': true,
         'tabbed-pane__fullscreen': this.fullscreen,
-      })} role="tablist">
+      })} role="tablist" part="nav">
         <div class="tabbed-pane__container">
           ${this._panels.map(p => this.#renderTab(p))}
         </div>
       </div>
-      <div class="tabbed-pane__body">
+      <div class="tabbed-pane__body" part="body">
         <slot></slot>
       </div>
     `;

@@ -19,6 +19,7 @@ export class Toolbar extends SupramundaneElement {
     }
     :host([variant="flat"]) {
       border-color: transparent;
+      border-radius: 0;
       box-shadow: none;
     }
 
