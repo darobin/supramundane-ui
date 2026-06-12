@@ -17,6 +17,7 @@
     "./tokens/light": "./tokens/light.css",
     "./tokens/dark": "./tokens/dark.css",
     ".": "./index.js",
+    "./button": "./components/button.js",
     "./icon": "./components/icon.js",
     "./icon-button": "./components/icon-button.js",
     "./tab-panel": "./components/tab-panel.js",

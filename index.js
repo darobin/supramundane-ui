@@ -2,7 +2,7 @@
 // export { SmAvatar } from './components/sm-avatar.js';
 // export { SmBreadcrumb } from './components/sm-breadcrumb.js';
 // export { SmBreadcrumbItem } from './components/sm-breadcrumb-item.js';
-// export { SmButton } from './components/sm-button.js';
+export { Button } from './components/button.js';
 // export { SmCard } from './components/sm-card.js';
 // export { SmCheckbox } from './components/sm-checkbox.js';
 // export { SmColorPicker } from './components/sm-color-picker.js';

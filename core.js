@@ -410,3 +410,18 @@ export function watch (propertyName, options) {
     };
   };
 }
+
+// A validity state object that represents `valid`
+export const validValidityState = Object.freeze({
+  badInput: false,
+  customError: false,
+  patternMismatch: false,
+  rangeOverflow: false,
+  rangeUnderflow: false,
+  stepMismatch: false,
+  tooLong: false,
+  tooShort: false,
+  typeMismatch: false,
+  valid: true,
+  valueMissing: false
+});
